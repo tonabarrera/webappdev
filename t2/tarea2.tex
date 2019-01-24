@@ -17,12 +17,21 @@
 
 \newpage
 \section{Introducción}
-Este trabajo recopila información sobre lo que es un servidor web, contenedor web y un servidor de aplicaciones y enlista las principales diferencias que existen este estas tres tecnologías.
+Este trabajo recopila información sobre lo que es un servidor web, contenedor 
+web y un servidor de aplicaciones y enlista las principales diferencias que 
+existen este estas tres tecnologías.
 
 \section{Desarrollo}
 Para poder entender las diferencias primero se debe de entender que es un servidor web, un contenedor web y un servidor de aplicaciones.
 \subsection{Servidor web}
-Un servidor web o servidor HTTP es un programa informático que procesa una aplicación del lado del servidor, realizando conexiones bidireccionales o unidireccionales y síncronas o asíncronas con el cliente y generando o cediendo una respuesta en cualquier lenguaje o Aplicación del lado del cliente. El código recibido por el cliente es renderizado por un navegador web. Para la transmisión de todos estos datos suele utilizarse algún protocolo. Generalmente se usa el protocolo HTTP para estas comunicaciones, perteneciente a la capa de aplicación del modelo OSI \cite{wiki}.
+Un servidor web o servidor HTTP es un programa informático que procesa 
+una aplicación del lado del servidor, realizando conexiones bidireccionales o 
+unidireccionales y síncronas o asíncronas con el cliente y generando o cediendo 
+una respuesta en cualquier lenguaje o Aplicación del lado del cliente. El código 
+recibido por el cliente es renderizado por un navegador web. Para la transmisión 
+de todos estos datos suele utilizarse algún protocolo. Generalmente se usa el 
+protocolo HTTP para estas comunicaciones, perteneciente a la capa de aplicación 
+del modelo OSI \cite{wiki}.
 Algunos ejemplos de este tipo de herramienta son:
 \begin{enumerate}
  \item Apache HTTP Server
@@ -31,29 +40,60 @@ Algunos ejemplos de este tipo de herramienta son:
 \end{enumerate}
 
 \subsection{Contenedor web}
-Un contenedor Web (más comúnmente conocido como un contenedor de servlets) es una aplicación implementada en los servidores web que hace que la implementación de “Java Servlets” y posible de Java Server Pages “. Un contenedor crea un ambiente totalmente independiente para el funcionamiento de los servlets y las páginas de servidor Java con el fin de ofrecer contenido dinámico a los visitantes del sitio. Está diseñado principalmente para ejecutar aplicaciones Java de codificación en un servidor web. Todos los contenedores web son JEE (Java Platform Enterprise Edition) compatible. Los servlets se ejecutan en el entorno de tiempo de ejecución proporcionado por el contenedor web mediante el uso de motor de JSP y motores de servlets. \cite{jee}.
+Un contenedor Web (más comúnmente conocido como un contenedor de servlets) es 
+una aplicación implementada en los servidores web que hace que la implementación 
+de “Java Servlets” y posible de Java Server Pages “. Un contenedor crea un 
+ambiente totalmente independiente para el funcionamiento de los servlets y las 
+páginas de servidor Java con el fin de ofrecer contenido dinámico a los 
+visitantes del sitio. Está diseñado principalmente para ejecutar aplicaciones 
+Java de codificación en un servidor web. Todos los contenedores web son JEE 
+(Java Platform Enterprise Edition) compatible. Los servlets se ejecutan en el 
+entorno de tiempo de ejecución proporcionado por el contenedor web mediante el 
+uso de motor de JSP y motores de servlets. \cite{jee}.
 \begin{enumerate}
  \item Apache Tomcat
 \end{enumerate}
 
 \subsection{Servidor de aplicaciones}
-En informática, se denomina servidor de aplicaciones a un servidor en una red de computadores que ejecuta ciertas aplicaciones. Usualmente se trata de un dispositivo de software que proporciona servicios de aplicación a las computadoras cliente. Un servidor de aplicaciones generalmente gestiona la mayor parte (o la totalidad) de las funciones de lógica de negocio y de acceso a los datos de la aplicación. Los principales beneficios de la aplicación de la tecnología de servidores de aplicación son la centralización y la disminución de la complejidad en el desarrollo de aplicaciones.
+En informática, se denomina servidor de aplicaciones a un servidor en una red de 
+computadores que ejecuta ciertas aplicaciones. Usualmente se trata de 
+un dispositivo de software que proporciona servicios de aplicación a las 
+computadoras cliente. Un servidor de aplicaciones generalmente gestiona la mayor 
+parte (o la totalidad) de las funciones de lógica de negocio y de acceso a los 
+datos de la aplicación. Los principales beneficios de la aplicación de la 
+tecnología de servidores de aplicación son la centralización y la disminución de 
+la complejidad en el desarrollo de aplicaciones.
 Algunos ejemplos de este tipo de herramienta son:
 \begin{enumerate}
  \item Oracle WebLogic
  \item WebSphere
  \item EAServer
- \item JOnAS
  \item JBoss
  \item TomEE
  \item GlassFish
 \end{enumerate}
 
 \subsection{Diferencias}
-Al tener las definiciones de estas tres herramientas se pueden concluir las siguientes diferencias...
+Al tener las definiciones de estas tres herramientas se pueden concluir
+las siguientes diferencias.
+
+\begin{enumerate}
+ \item Un servidor web está diseñado para servir contenido HTTP. Servidor de 
+aplicaciones puede servir contenido HTTP pero no se limita a sólo HTTP. Se puede 
+proporcionar otro soporte de protocolo como RPC/RMI.
+ \item Un servidor web en su mayoría está diseñado para servir contenido estático.
+ \item Un servidor de aplicaciones tiende a referirse a un marco de nivel superior utilizado para generar contenido dinámico.
+ \item Un servidor de aplicaciones agrega más operaciones que el servidor web, como el administrador de transacciones, la fuente de datos y otras operaciones comerciales complicadas.
+\end{enumerate}
+
 
 \section{Conclusiones}
-El conocer las diferencias entre servidor web, contenedor web y servidor de aplicaciones es fundamental para elegir la herramienta que más se ajuste a nuestras necesidades y no utilizar algo que consuma demasiados recursos en un proyecto pequeño o viceversa. Además de que el conocer estas herramientas nos permite evitar confusiones que se puedan generar al plantear el desarrollo de algún proyecto.
+El conocer las diferencias entre servidor web, contenedor web y servidor de 
+aplicaciones es fundamental para elegir la herramienta que más se ajuste a 
+nuestras necesidades y no utilizar algo que consuma demasiados recursos en un 
+proyecto pequeño o viceversa. Además de que el conocer estas herramientas nos 
+permite evitar confusiones que se puedan generar al plantear el desarrollo de 
+algún proyecto.
 
 \bibliographystyle{ieeetr}
 \bibliography{referencias}
