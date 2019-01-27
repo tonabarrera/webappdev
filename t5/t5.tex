@@ -1,0 +1,182 @@
+\documentclass[12pt, titlepage]{article}
+\usepackage[letterpaper, margin=3cm]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{graphicx}
+\usepackage{url}
+\usepackage{float}
+\usepackage{listings}
+
+\usepackage{xcolor}
+\definecolor{gris}{RGB}{123, 126, 132}
+\definecolor{morado}{RGB}{157, 101, 255}
+\definecolor{amarillo}{RGB}{253,151,31}
+\definecolor{magenta}{RGB}{249,38,114}
+
+\lstdefinestyle{customXML}{
+    frame=tb,
+    language=XML,
+    basicstyle=\footnotesize\ttfamily,
+    backgroundcolor=\color{white},   
+    commentstyle=\itshape\color{gris},
+    keywordstyle=\bfseries\color{magenta},
+    numberstyle=\color{morado},
+    stringstyle=\color{amarillo},
+    identifierstyle=\color{magenta},
+    basicstyle=\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2,
+    morekeywords={web-app, encoding, xmlns, xmlns:xsi, xsi:schemaLocation}
+}
+
+%opening
+\title{Tarea No. 5. Archivo web.xml}
+\author{Barrera Pérez Carlos Tonatihu \\ Profesor: José Asunción Enríquez Zárate 
+\\ Web Application Development \\ Grupo: 3CM9 }
+
+\begin{document}
+
+\maketitle
+\newpage
+\tableofcontents
+\newpage
+
+\section{Introducción}
+Las aplicaciones web desarrolladas con java usan un descriptor de despliegue 
+para determinar como serán mapeadas las URLs de los servlets, que URLs 
+requerirán autenticación y otra información.
+
+El archivo se llama web.xml y se ubica dentro de la carpeta 
+WEB-INF/ dentro del proyecto \cite{google}.
+
+\section{Desarrollo}
+La estructura mínima que contiene este archivo es el descriptor de apertura y 
+cierre $<$web-app$>$, el siguiente es un ejemplo que funciona en la versión 6 
+de Tomcat.
+
+\begin{lstlisting}[language=XML, style=customXML]
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<web-app xmlns="http://java.sun.com/xml/ns/j2ee"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+  http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+  version="2.5">
+</web-app>
+\end{lstlisting}
+
+Los descriptores que puede contener este archivo son los siguientes:
+
+\begin{lstlisting}[language=XML, style=customXML]
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://java.sun.com/xml/ns/j2ee"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee 
+  http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
+  version="2.4">
+
+  <!-- Nombre de la aplicacion -->
+  <display-name>Nombre</display-name>
+  <description>Descripcion</description>
+  
+  <!-- ========================================================== -->
+  <!-- Servlets -->
+  <!-- ========================================================== -->
+
+  <servlet>
+    <servlet-name>cms</servlet-name>
+    <servlet-class>com.metawerx.servlets.ContentManagementSystem</servlet-class>
+    <description>Descripcion</description>
+
+    <!--Parametros del servlet-->
+    <init-param>
+      <param-name>debug</param-name>
+      <param-value>true</param-value>
+    </init-param>
+
+    <!--Carga este servlet cuando la aplicacion empieza-->
+    <load-on-startup>5</load-on-startup>
+  </servlet>
+
+  <!-- Mapea las urls -->
+  <servlet-mapping>
+  <!-- Para cualquier url que termine en *.cms-->
+    <servlet-name>cms</servlet-name>
+    <url-pattern>*.cms</url-pattern>
+  </servlet-mapping>
+
+  <!-- Define un JSP que responda a las urls /shop/item/* -->
+  <servlet>
+    <servlet-name>pathjsp</servlet-name>
+    <jsp-file>pathfinder.jsp</jsp-file>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>pathjsp</servlet-name>
+    <url-pattern>/shop/item/*</url-pattern>
+  </servlet-mapping>
+
+  <!-- ========================================================== -->
+  <!-- Seguridad -->
+  <!-- ========================================================== -->
+
+  <!-- Roles  -->
+  <security-role>
+    <role-name>admin</role-name>
+  </security-role>
+  
+  <!-- Restriccion para /private/* -->
+  <security-constraint>
+    <display-name>Nombre que se muestra</display-name>
+    <web-resource-collection>
+      <web-resource-name>Protected Area</web-resource-name>
+      <url-pattern>/private/*</url-pattern>
+                        
+      <!-- Metodos que se protegen -->
+      <http-method>DELETE</http-method>
+
+    </web-resource-collection>
+
+    <auth-constraint>
+    <!-- Quienes pueden acceder -->
+      <role-name>admin</role-name>
+    </auth-constraint>
+
+  </security-constraint>
+
+  <!-- ========================================================== -->
+  <!-- Manejador de errrores -->
+  <!-- ========================================================== -->
+  <error-page>
+    <error-code>404</error-code>
+    <location>/error404.jsp</location>
+  </error-page>
+  
+  <error-page>
+    <exception-type>java.lang.Throwable</exception-type>
+    <location>/errorThrowable.jsp</location>
+  </error-page>
+
+</web-app> 
+\end{lstlisting}
+
+
+\section{Conclusiones}
+El conocer y entender el funcionamiento del archivo web.xml es fundamental en 
+el desarrollo de aplicaciones web con Java EE, he incluso en frameworks que se 
+basen en Java para el desarrollo debido a que es la base del como funciona una 
+aplicación de este tipo. Tal vez no se utilicen todos los descriptores que se 
+pueden declarar en este archivo, eso depende de lo que se requiera; pero el 
+simple hecho de saber que existen permite que el desarrollo pueda ser más ágil.
+
+\bibliographystyle{ieeetr}
+\bibliography{referencias}
+
+\end{document}
