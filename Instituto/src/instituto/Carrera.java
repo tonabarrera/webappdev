@@ -11,52 +11,50 @@ import java.io.Serializable;
  *
  * @author tonatihu
  */
-public class Carrera implements Serializable{
+public class Carrera implements Serializable {
     private int id;
     private String nombre;
     private String descripcion;
     private int duracion;
 
-    public Carrera () {}
+    public Carrera() {
+    }
+
+    public int getId() {
+        return id;
+    }
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getNombre() {
+        return nombre;
     }
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
 
+    public String getDescripcion() {
+        return descripcion;
+    }
+
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
+    }
+
+    public int getDuracion() {
+        return duracion;
     }
 
     public void setDuracion(int duracion) {
         this.duracion = duracion;
     }
 
-    public int getId() {
-        return this.id;
-    }
-
-    public String getNombre() {
-        return this.nombre;
-    }
-
-    public String getDescripcion() {
-        return this.descripcion;
-    }
-
-    public int getDuracion() {
-        return this.duracion;
-    }
-    
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(id).append("-").append(nombre).append("-")
-        .append(descripcion).append("-").append(duracion).append("\n");
-
-        return sb.toString();
+        return "dto.Carrera{id=" + id + ", nombre='" + nombre + '\'' + ", descripcion='" +
+                descripcion + '\'' + ", duracion=" + duracion + '}';
     }
 }

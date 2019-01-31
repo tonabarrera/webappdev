@@ -19,63 +19,60 @@ public class Alumno implements Serializable {
     private String email;
     private Carrera carrera;
 
-    public Alumno() {}
+    public Alumno() {
+    }
+
+    public long getNoBoleta() {
+        return noBoleta;
+    }
 
     public void setNoBoleta(long noBoleta) {
         this.noBoleta = noBoleta;
     }
 
-    public void setApPaterno(String apPaterno) {
-        this.apPaterno = apPaterno;
-    }
-
-    public void setApMaterno(String apMaterno) {
-        this.apMaterno = apMaterno;
+    public String getNombre() {
+        return nombre;
     }
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
 
+    public String getApPaterno() {
+        return apPaterno;
+    }
+
+    public void setApPaterno(String apPaterno) {
+        this.apPaterno = apPaterno;
+    }
+
+    public String getApMaterno() {
+        return apMaterno;
+    }
+
+    public void setApMaterno(String apMaterno) {
+        this.apMaterno = apMaterno;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public Carrera getCarrera() {
+        return carrera;
     }
 
     public void setCarrera(Carrera carrera) {
         this.carrera = carrera;
     }
 
-    public long getNoBoleta() {
-        return this.noBoleta;
-    }
-
-    public String getApPaterno() {
-        return this.apPaterno;
-    }
-
-    public String getApMaterno() {
-        return this.apMaterno;
-    }
-
-    public String getNombre() {
-        return this.nombre;
-    }
-
-    public String getEmail() {
-        return this.email;
-    }
-
-    public Carrera getCarrera() {
-        return this.carrera;
-    }
-
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(noBoleta).append("-").append(nombre).append("-")
-        .append(apPaterno).append("-").append(apMaterno).append("-")
-        .append(email).append("-").append(carrera).append("\n");
-
-        return sb.toString();
+        return "dto.Alumno{" + "noBoleta=" + noBoleta + ", nombre='" + nombre + '\'' + ", apPaterno" +
+                "='" + apPaterno + '\'' + ", apMaterno='" + apMaterno + '\'' + ", email='" + email + '\'' + ", carrera=" + carrera + '}';
     }
 }

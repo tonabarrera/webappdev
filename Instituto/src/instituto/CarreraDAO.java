@@ -13,9 +13,9 @@ import java.util.List;
  * @author tonatihu
  */
 public interface CarreraDAO {
-    public void create(Carrera c) throws SQLException ;
-    public Carrera read(Carrera c) throws SQLException;
-    public List<Carrera> readAll() throws SQLException;
-    public void update(Carrera c) throws SQLException;
-    public void delete(Carrera c) throws SQLException;
+    void create(Carrera c) throws SQLException;
+    Carrera read(Carrera c) throws SQLException;
+    List readAll() throws SQLException;
+    void update(Carrera c) throws SQLException;
+    void delete(Carrera c) throws SQLException;
 }

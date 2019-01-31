@@ -5,13 +5,18 @@
  */
 package instituto;
 
+import java.sql.SQLException;
+import java.util.List;
+
 /**
  *
  * @author tonatihu
  */
 public interface AlumnoDAO {
-    public void create(Alumno c);
-    public Alumno read(Alumno c);
-    public void update(Alumno c);
-    public void delete(Alumno c);
+    void create(Alumno c) throws SQLException;
+    Alumno read(Alumno c) throws SQLException;
+    List readAll() throws SQLException;
+    void update(Alumno c) throws SQLException;
+    void delete(Alumno c) throws SQLException;
 }
+
