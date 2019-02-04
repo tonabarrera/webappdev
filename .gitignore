@@ -273,3 +273,4 @@ TSWLatexianTemp*
 *.kilepr
 
 # End of https://www.gitignore.io/api/latex
+/EjercicioServlet/nbproject/private/

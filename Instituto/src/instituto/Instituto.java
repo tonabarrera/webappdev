@@ -19,8 +19,8 @@ public class Instituto {
      */
     public static void main(String[] args) throws SQLException {
         // TODO code application logic here
-        //Carrera c = new Carrera();
-        //CarreraDAO dao = new CarreraDAOImpl();
+        Carrera c = new Carrera();
+        CarreraDAO dao = new CarreraDAOImpl();
         /*
         c.setDescripcion("Otra carrera chida");
         c.setDuracion(4020);
@@ -28,11 +28,11 @@ public class Instituto {
         c.setNombre("Super carrera");
         dao.create(c);
         */
-        /*
-        c.setId(1);
+        
+        c.setId(2);
         Carrera c2 = dao.read(c);
         System.out.println(c2);
-        */
+        
         
         //List<Carrera> carreras = dao.readAll();
         //carreras.forEach(carrera -> System.out.println(carrera));
