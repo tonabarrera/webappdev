@@ -44,6 +44,10 @@ public class MostrarCarrera extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
+            out.println("<link rel=\"stylesheet\" "
+                    + "href=\"https://use.fontawesome.com/releases/v5.7.2/css/all.css\" "
+                    + "integrity=\"sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr\" "
+                    + "crossorigin=\"anonymous\">");
             out.println("<title>Servlet MostrarCarrera</title>");
             out.println("</head>");
             out.println("<body>");
@@ -59,7 +63,8 @@ public class MostrarCarrera extends HttpServlet {
             out.println("<th> Nombre Carrera </th>");
             out.println("<th> Descripci&oacute;n Carrera </th>");
             out.println("<th> Duraci&oacute;n Carrera </th>");
-            out.println("<th>Acciones</th>");
+            out.println("<th>Acciones<table><tr><td>Ver</td>"
+                    + "<td>Actualizar</td><td>Eliminar</td></tr></table></th>");
             out.println("</tr>");
 
             CarreraDAO dao = new CarreraDAOImpl();
@@ -77,9 +82,11 @@ public class MostrarCarrera extends HttpServlet {
                     out.println("<td>" + nombreCarrera + "</td>");
                     out.println("<td>" + descripcionCarrera + "</td>");
                     out.println("<td>" + duracionCarrera + "</td>");
-                    out.println("<td><a href='EliminarCarrera?id=" + idCarrera + "' >Eliminar</a>"
-                            + "<a href='VerCarrera?id="+idCarrera+"'>Ver</a>"
-                                    + "<a href='EditarCarrera?id="+idCarrera+"'>Editar</a></td>");
+                    out.println("<td><table><tr>"
+                            + "<td><a href='EliminarCarrera?id=" + idCarrera + "' ><i class='fas fa-trash'></i></a></td>"
+                            + "<td><a href='VerCarrera?id="+idCarrera+"'><i class='fas fa-eye'></i></a></td>"
+                            + "<td><a href='EditarCarrera?id="+idCarrera+"'><i class='fas fa-edit'></i></a></td>"
+                            + "</tr></table></td>");
                     out.println("</tr>");
                 }
                 out.println("</table>");
