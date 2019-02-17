@@ -16,6 +16,7 @@
 *.cb
 *.cb2
 .*.lb
+*.war
 
 ## Intermediate documents:
 *.dvi
@@ -276,3 +277,4 @@ TSWLatexianTemp*
 /EjercicioServlet/nbproject/private/
 /ejer3/EjercicioServlet/build/
 /ejer3/EjercicioServlet/nbproject/private/
+/ejer3/EjercicioServlet/dist/
