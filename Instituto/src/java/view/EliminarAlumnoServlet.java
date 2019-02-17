@@ -23,8 +23,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author tonatihu
  */
-@WebServlet(name = "VerAlumnoServlet", urlPatterns = {"/VerAlumnoServlet"})
-public class VerAlumnoServlet extends HttpServlet {
+@WebServlet(name = "EliminarAlumnoServlet", urlPatterns = {"/EliminarAlumnoServlet"})
+public class EliminarAlumnoServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -43,43 +43,26 @@ public class VerAlumnoServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet VerAlumnoServlet</title>");            
+            out.println("<title>Servlet EliminarAlumnoServlet</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h3 align='center'>Datos de la Carrera</h3>");
-            out.println("<table align='center' border='1' width='60%'");
             
-            AlumnoDao dao = new AlumnoDaoImpl();
+            String mensajeAMostrar = "";
             Alumno alumno = new Alumno();
             alumno.setNoBoleta(Long.valueOf(request.getParameter("id")));
+            AlumnoDao dao = new AlumnoDaoImpl();
             try {
-                alumno = dao.read(alumno);
+                dao.delete(alumno);
+                mensajeAMostrar = "El Registro se eliminó satisfactoriamente";
             } catch (SQLException ex) {
-                Logger.getLogger(VerAlumnoServlet.class.getName()).log(Level.SEVERE, null, ex);
+                mensajeAMostrar = "No se pudó eliminar el registro" + ex.toString();
+                Logger.getLogger(EliminarAlumnoServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
-            if (alumno != null) {
-                out.println("<tr>");
-                out.println("<th>Boleta</th><td>" + alumno.getNoBoleta()+ "</td>");
-                out.println("</tr>");
-                out.println("<tr>");
-                out.println("<th>Nombre</th><td>" + alumno.getNombre() + "</td>");
-                out.println("</tr>");
-                out.println("<tr>");
-                out.println("<th>Apellido Paterno</th><td>" + alumno.getApPaterno()+ "</td>");
-                out.println("</tr>");
-                out.println("<tr>");
-                out.println("<th>Apellido Materno</th><td>" + alumno.getApMaterno()+ "</td>");
-                out.println("</tr>");
-                out.println("<tr>");
-                out.println("<th>Correo</th><td>" + alumno.getEmail()+ "</td>");
-                out.println("</tr>");
-                out.println("</table>");
-                out.println("<div align='center'>");
-                out.println("<a href='EliminarAlumnoServlet?id=" + alumno.getNoBoleta() +" '> Eliminar Alumno </a>");
-                out.println("&nbsp; &nbsp; &nbsp;");
-                out.println("<a href='MostrarCarrera'> Lista de Alumnos </a>");
-                out.println("</div>");
-            }
+            
+            out.println("<div align='center'>");
+            out.println(mensajeAMostrar + "<br/><br/>");
+            out.println("<a href='VerAlumnosServlet'> Lista de Alumnos </a>");
+            out.println("</div>");
             
             out.println("</body>");
             out.println("</html>");
