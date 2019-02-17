@@ -8,6 +8,7 @@ package dao;
 
 import db.Conexion;
 import dto.Alumno;
+import dto.Carrera;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -77,11 +78,14 @@ public class AlumnoDaoImpl implements AlumnoDao{
         List<Alumno> resultados = new ArrayList<>();
         while (rs.next()) {
             Alumno a = new Alumno();
+            Carrera c = new Carrera();
+            c.setId(rs.getInt("carrera_id"));
             a.setNoBoleta(rs.getLong("boleta"));
             a.setNombre(rs.getString("nombre"));
             a.setApPaterno(rs.getString("ap_paterno"));
             a.setApMaterno(rs.getString("ap_materno"));
             a.setEmail(rs.getString("email"));
+            a.setCarrera(c);
             resultados.add(a);
         }
         return resultados;

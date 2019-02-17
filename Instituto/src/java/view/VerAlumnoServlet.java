@@ -7,6 +7,8 @@ package view;
 
 import dao.AlumnoDao;
 import dao.AlumnoDaoImpl;
+import dao.CarreraDao;
+import dao.CarreraDaoImpl;
 import dto.Alumno;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -50,10 +52,12 @@ public class VerAlumnoServlet extends HttpServlet {
             out.println("<table align='center' border='1' width='60%'");
             
             AlumnoDao dao = new AlumnoDaoImpl();
+            CarreraDao daoCarrera = new CarreraDaoImpl();
             Alumno alumno = new Alumno();
             alumno.setNoBoleta(Long.valueOf(request.getParameter("id")));
             try {
                 alumno = dao.read(alumno);
+                alumno.setCarrera(daoCarrera.read(alumno.getCarrera()));
             } catch (SQLException ex) {
                 Logger.getLogger(VerAlumnoServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -72,6 +76,9 @@ public class VerAlumnoServlet extends HttpServlet {
                 out.println("</tr>");
                 out.println("<tr>");
                 out.println("<th>Correo</th><td>" + alumno.getEmail()+ "</td>");
+                out.println("</tr>");
+                out.println("<tr>");
+                out.println("<th>Carrera</th><td>" + alumno.getCarrera().getNombre() + "</td>");
                 out.println("</tr>");
                 out.println("</table>");
                 out.println("<div align='center'>");

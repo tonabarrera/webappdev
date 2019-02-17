@@ -5,8 +5,11 @@
  */
 package view;
 
+import dao.AlumnoDao;
+import dao.AlumnoDaoImpl;
 import dao.CarreraDao;
 import dao.CarreraDaoImpl;
+import dto.Alumno;
 import dto.Carrera;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -47,25 +50,63 @@ public class FormAlumnoServlet extends HttpServlet {
             out.println("<title>Servlet FormAlumnoServlet</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Datos del Alumno</h1>");
             CarreraDao dao = new CarreraDaoImpl();
-            
+            AlumnoDao daoAlumno = new AlumnoDaoImpl();
+            Alumno alumno = new Alumno();
+            String mensaje = "Editar alumno";
+            int boleta = -1;
+            try {
+                boleta = Integer.parseInt(request.getParameter("id"));
+            } catch (NullPointerException | NumberFormatException ex ) {
+                Logger.getLogger(FormAlumnoServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
             try {
                 List<Carrera> carreras = dao.readAll();
+                if (boleta != -1) {
+                    alumno.setNoBoleta(boleta);
+                    alumno = daoAlumno.read(alumno);
+                }
+                if (boleta == -1 || alumno == null) {
+                    alumno = new Alumno();
+                    alumno.setNoBoleta(-1);
+                    alumno.setApMaterno("");
+                    alumno.setApPaterno("");
+                    alumno.setNombre("");
+                    alumno.setEmail("");
+                    alumno.setCarrera(new Carrera());
+                    mensaje = "Datos del alumno";
+                }
+                out.println("<h1>"+mensaje+"</h1>");
                 out.println("<form action='AgregarAlumnoServlet' method='post'");
-                out.println("<p>Boleta: <input type='number' name='boleta' required/></p>");
-                out.println("<p>Nombre: <input type='text' name='nombre' required/></p>");
-                out.println("<p>Apellido Paterno: <input type='text' name='apPaterno' required/></p>");
-                out.println("<p>Apellido Materno: <input type='text' name='apMaterno' required/></p>");
-                out.println("<p>Correo: <input type='email' name='correo' required/></p>");
+                if (alumno.getNoBoleta() == -1)
+                    out.print("<p>Boleta: <input type='number' name='boleta' required /></p>");
+                else{
+                    out.println("<p>Boleta: <input type='number' name='boleta' "
+                        + "value='"+alumno.getNoBoleta()+"' required/></p>");
+                }
+                out.println("<p>Nombre: <input type='text' name='nombre' "
+                        + "value='" + alumno.getNombre() + "' required/></p>");
+                out.println("<p>Apellido Paterno: <input type='text' name='apPaterno' "
+                        + "value='"+ alumno.getApPaterno() +"'  required/></p>");
+                out.println("<p>Apellido Materno: <input type='text' name='apMaterno' "
+                        + "value='"+ alumno.getApPaterno() +"' required/></p>");
+                out.println("<p>Correo: <input type='email' name='correo' "
+                        + "value='"+ alumno.getEmail() +"' required/></p>");
                 
                 out.println("<p>Carrera: ");
                 out.println("<select name='carrera' required>");
                 for (Carrera c : carreras) {
-                    out.println("<option value='"+c.getId()+"'>"+c.getNombre()+"</option>");
+                    if (c.getId() == alumno.getCarrera().getId())
+                        out.println("<option value='"+c.getId()+"' selected>"+c.getNombre()+"</option>");
+                    else
+                        out.println("<option value='"+c.getId()+"'>"+c.getNombre()+"</option>");
                 }
                 out.println("</select>");
                 out.println("</p>");
+                if (alumno.getNoBoleta() == -1)
+                    out.print("<input hidden name=\"tipo\" value=\"alta\">");
+                else
+                    out.print("<input hidden name=\"tipo\" value=\"cambio\">");
                 out.println("<p><input type='submit' value='Enviar'/></p>");
                 out.println("</form>");
             } catch (SQLException ex) {

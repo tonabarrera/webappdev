@@ -7,8 +7,6 @@ package view;
 
 import dao.AlumnoDao;
 import dao.AlumnoDaoImpl;
-import dao.CarreraDao;
-import dao.CarreraDaoImpl;
 import dto.Alumno;
 import dto.Carrera;
 import java.io.IOException;
@@ -54,6 +52,7 @@ public class AgregarAlumnoServlet extends HttpServlet {
             Alumno alumno = new Alumno();
             Carrera carrera = new Carrera();
             AlumnoDao dao = new AlumnoDaoImpl();
+            String tipo = request.getParameter("tipo");
             
             alumno.setNoBoleta(Long.valueOf(request.getParameter("boleta")));
             alumno.setApMaterno(request.getParameter("apMaterno"));
@@ -64,8 +63,13 @@ public class AgregarAlumnoServlet extends HttpServlet {
             alumno.setCarrera(carrera);
             
             try {
-                dao.create(alumno);
-                mensajeAMostrar = "El Registro se agregó satisfactoriamente";
+                if (tipo.equals("alta")) {
+                    dao.create(alumno);
+                    mensajeAMostrar = "El Registro se agregó satisfactoriamente";
+                } else {
+                    dao.update(alumno);
+                    mensajeAMostrar = "El regustro se actualizo satisfactoriamente";
+                }
             } catch (SQLException ex) {
                 mensajeAMostrar = "No se pudó agregar el registro" + ex.toString();
                 Logger.getLogger(AgregarAlumnoServlet.class.getName()).log(Level.SEVERE, null, ex);

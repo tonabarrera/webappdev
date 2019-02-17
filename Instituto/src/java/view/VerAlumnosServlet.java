@@ -14,6 +14,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import dao.AlumnoDao;
 import dao.AlumnoDaoImpl;
+import dao.CarreraDao;
+import dao.CarreraDaoImpl;
 import dto.Alumno;
 import java.sql.SQLException;
 import java.util.List;
@@ -53,6 +55,7 @@ public class VerAlumnosServlet extends HttpServlet {
             out.println("<body>");
             
             AlumnoDao dao = new AlumnoDaoImpl();
+            CarreraDao daoCarrera = new CarreraDaoImpl();
             
             try {
                  out.println("<h3 align='center'>Lista de Alumnos</h3>");
@@ -63,18 +66,21 @@ public class VerAlumnosServlet extends HttpServlet {
                 out.println("<th>Apellido Paterno</th>");
                 out.println("<th>Apellido Materno</th>");
                 out.println("<th>Correo</th>");
+                out.println("<th>Carrera</th>");
                 out.println("<th>Acciones<table><tr><td>Ver</td>"
                         + "<td>Actualizar</td><td>Eliminar</td></tr></table></th>");
                 out.println("</tr>");
                 List<Alumno> alumnos = dao.readAll();
                 
                 for (Alumno alumno : alumnos) {
+                    alumno.setCarrera(daoCarrera.read(alumno.getCarrera()));
                     out.println("<tr>");
                     out.println("<td><a href='VerAlumnoServlet?id=" + alumno.getNoBoleta() + "' >" + alumno.getNoBoleta() + "</a></td>");
                     out.println("<td>" + alumno.getNombre() + "</td>");
                     out.println("<td>" + alumno.getApPaterno()+ "</td>");
                     out.println("<td>" + alumno.getApMaterno()+ "</td>");
                     out.println("<td>" + alumno.getEmail()+ "</td>");
+                    out.println("<td>" + alumno.getCarrera().getNombre() + "</td>");
                     out.println("<td><table><tr>"
                             + "<td><a href='EliminarAlumnoServlet?id=" + alumno.getNoBoleta() + "' ><i class='fas fa-trash'></i></a></td>"
                             + "<td><a href='VerAlumnoServlet?id=" + alumno.getNoBoleta() + "'><i class='fas fa-eye'></i></a></td>"
