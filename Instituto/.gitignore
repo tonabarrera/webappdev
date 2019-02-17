@@ -1,6 +1,6 @@
 
-# Created by https://www.gitignore.io/api/java-web,code-java,java,netbeans
-# Edit at https://www.gitignore.io/?templates=java-web,code-java,java,netbeans
+# Created by https://www.gitignore.io/api/java,java-web,code-java,netbeans
+# Edit at https://www.gitignore.io/?templates=java,java-web,code-java,netbeans
 
 ### Code-Java ###
 # Language Support for Java(TM) by Red Hat extension for Visual Studio Code - https://marketplace.visualstudio.com/items?itemName=redhat.java
@@ -48,4 +48,4 @@ dist/
 nbdist/
 .nb-gradle/
 
-# End of https://www.gitignore.io/api/java-web,code-java,java,netbeans
+# End of https://www.gitignore.io/api/java,java-web,code-java,netbeans

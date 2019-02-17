@@ -6,6 +6,7 @@
 
 package db;
 
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -36,11 +37,23 @@ public class Conexion {
     public PreparedStatement createPreparedStatement(String sqlQuery) throws SQLException {
         return connection.prepareStatement(sqlQuery);
     }
+    
+    public CallableStatement createCallableStatement(String sqlQuery) throws SQLException {
+        return connection.prepareCall(sqlQuery);
+    }
 
     public void cerrar(PreparedStatement ps) {
         if (ps != null) {
             try {
                 ps.close();
+            } catch (SQLException ignored) {}
+        }
+    }
+    
+    public void cerrar(CallableStatement cs) {
+        if (cs != null) {
+            try {
+                cs.close();
             } catch (SQLException ignored) {}
         }
     }

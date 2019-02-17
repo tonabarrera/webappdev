@@ -12,5 +12,29 @@ package dto;
  * Created on 11-Feb-2019
  */
 public class Datos {
+    private int cantidad;
+    private String nombre;
 
+    public int getCantidad() {
+        return cantidad;
+    }
+
+    public void setCantidad(int cantidad) {
+        this.cantidad = cantidad;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    @Override
+    public String toString() {
+        return "Datos{" + "cantidad=" + cantidad + ", nombre=" + nombre + '}';
+    }
+    
+    
 }

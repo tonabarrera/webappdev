@@ -9,8 +9,10 @@ package dao;
 import db.Conexion;
 import dto.Alumno;
 import dto.Carrera;
+import dto.Datos;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.CallableStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +28,7 @@ public class AlumnoDaoImpl implements AlumnoDao{
     private static final String SQL_SELECT = "select * from alumno where boleta=?";
     private static final String SQL_SELECT_ALL = "select * from alumno";
     private static final String SQL_DELETE = "delete from alumno where boleta=?";
+    private static final String SP_GET_COUNT = "{call sp_get_data}";
 
     private Conexion conexion;
 
@@ -143,6 +146,30 @@ public class AlumnoDaoImpl implements AlumnoDao{
             conexion.cerrar(ps);
             conexion.cerrar();
         }
+    }
+
+    @Override
+    public List getData() throws SQLException {
+        ResultSet rs = null;
+        CallableStatement cs = null;
+        List lista = new ArrayList();
+        conexion.conectar();
+        try {
+            cs = conexion.createCallableStatement(SP_GET_COUNT);
+            rs = cs.executeQuery();
+            while (rs.next()) {
+                Datos datos = new Datos();
+                datos.setCantidad(Integer.parseInt(rs.getString("alumnos")));
+                datos.setNombre(rs.getString("carrera"));
+                lista.add(datos);
+            }
+        } finally {
+            if (rs != null)
+                conexion.cerrar(rs);
+            if (cs != null)
+                conexion.cerrar(cs);
+        }
+        return lista;
     }
 }
 

@@ -56,9 +56,8 @@ public class VerAlumnosServlet extends HttpServlet {
             
             AlumnoDao dao = new AlumnoDaoImpl();
             CarreraDao daoCarrera = new CarreraDaoImpl();
-            
             try {
-                 out.println("<h3 align='center'>Lista de Alumnos</h3>");
+                out.println("<h3 align='center'>Lista de Alumnos</h3>");
                 out.println("<table align='center' border='1' width='60%'");
                 out.println("<tr>");
                 out.println("<th>Boleta</th>");

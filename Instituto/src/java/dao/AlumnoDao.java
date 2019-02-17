@@ -21,5 +21,6 @@ public interface AlumnoDao {
     List readAll() throws SQLException;
     void update(Alumno c) throws SQLException;
     void delete(Alumno c) throws SQLException;
+    List getData() throws SQLException;
 }
 
