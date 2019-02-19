@@ -101,6 +101,8 @@ public class MostrarCarrera extends HttpServlet {
                 out.println("</div>");
                 Logger.getLogger(MostrarCarrera.class.getName()).log(Level.SEVERE, null, e);
             }
+            out.println("<a href='GraficaServlet'>Ver cantidad de alumnos</a>");
+            out.println("<a href='EnviarCorreoServlet'>Enviar correo</a>");
             out.println("</body>");
             out.println("</html>");
         }
