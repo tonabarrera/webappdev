@@ -3,12 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package view;
 
+import dao.CarreraDao;
 import dao.CarreraDaoImpl;
 import dto.Carrera;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -16,43 +19,38 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import dao.CarreraDao;
 
 /**
  *
  * @author tonatihu
+ * Created on 23-Feb-2019
  */
-@WebServlet(name = "VerCarrera", urlPatterns = {"/VerCarrera"})
-public class VerCarrera extends HttpServlet {
-
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
+@WebServlet(name="RegistrarAlumno", urlPatterns={"/RegistrarAlumno"})
+public class RegistrarAlumno extends HttpServlet {
+   
+    /** 
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        /* TODO output your page here. You may use following sample code. */
-        CarreraDao dao = new CarreraDaoImpl();
-        Carrera carrera = new Carrera();
-        carrera.setId(Integer.parseInt(request.getParameter("id")));
+    throws ServletException, IOException {
         try {
-            carrera = dao.read(carrera);
-            request.setAttribute("carrera", carrera);
-            request.getRequestDispatcher("verCarrera.jsp").forward(request, response);
+            CarreraDao dao = new CarreraDaoImpl();
+            List<Carrera> carreras = dao.readAll();
+            request.setAttribute("pagina", 2);
+            request.setAttribute("carreras", carreras);
+            request.getRequestDispatcher("formAlumno.jsp").forward(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(VerCarrera.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(RegistrarAlumno.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }
+    } 
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
+    /** 
      * Handles the HTTP <code>GET</code> method.
-     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -60,13 +58,12 @@ public class VerCarrera extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    throws ServletException, IOException {
         processRequest(request, response);
-    }
+    } 
 
-    /**
+    /** 
      * Handles the HTTP <code>POST</code> method.
-     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -74,13 +71,12 @@ public class VerCarrera extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    throws ServletException, IOException {
         processRequest(request, response);
     }
 
-    /**
+    /** 
      * Returns a short description of the servlet.
-     *
      * @return a String containing servlet description
      */
     @Override

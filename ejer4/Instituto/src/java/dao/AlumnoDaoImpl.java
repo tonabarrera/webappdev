@@ -168,6 +168,7 @@ public class AlumnoDaoImpl implements AlumnoDao{
                 conexion.cerrar(rs);
             if (cs != null)
                 conexion.cerrar(cs);
+            conexion.cerrar();
         }
         return lista;
     }

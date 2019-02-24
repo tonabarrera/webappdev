@@ -9,6 +9,7 @@ import dao.CarreraDaoImpl;
 import dto.Carrera;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -22,8 +23,8 @@ import dao.CarreraDao;
  *
  * @author tonatihu
  */
-@WebServlet(name = "VerCarrera", urlPatterns = {"/VerCarrera"})
-public class VerCarrera extends HttpServlet {
+@WebServlet(name = "MostrarCarreras", urlPatterns = {"/MostrarCarreras"})
+public class MostrarCarreras extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -36,17 +37,16 @@ public class VerCarrera extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        /* TODO output your page here. You may use following sample code. */
         CarreraDao dao = new CarreraDaoImpl();
-        Carrera carrera = new Carrera();
-        carrera.setId(Integer.parseInt(request.getParameter("id")));
         try {
-            carrera = dao.read(carrera);
-            request.setAttribute("carrera", carrera);
-            request.getRequestDispatcher("verCarrera.jsp").forward(request, response);
+            List<Carrera> carreras = dao.readAll();
+            request.setAttribute("carreras", carreras);
+            request.setAttribute("pagina", 1);
+            request.getRequestDispatcher("carreraLista.jsp").forward(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(VerCarrera.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MostrarCarreras.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

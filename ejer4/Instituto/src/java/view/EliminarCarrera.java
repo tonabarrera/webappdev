@@ -62,7 +62,7 @@ public class EliminarCarrera extends HttpServlet {
 
             out.println("<div align='center'>");
             out.println(mensajeAMostrar + "<br/><br/>");
-            out.println("<a href='MostrarCarrera'> Lista de Carreras </a>");
+            out.println("<a href='MostrarCarreras'> Lista de Carreras </a>");
             out.println("</div>");
 
             out.println("</body>");

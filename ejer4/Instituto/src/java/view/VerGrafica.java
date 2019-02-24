@@ -5,10 +5,13 @@
  */
 package view;
 
-import dao.CarreraDaoImpl;
-import dto.Carrera;
+import dao.AlumnoDao;
+import dao.AlumnoDaoImpl;
+import dto.Datos;
+import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -16,14 +19,17 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import dao.CarreraDao;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartUtilities;
+import org.jfree.chart.JFreeChart;
+import org.jfree.data.general.DefaultPieDataset;
 
 /**
  *
  * @author tonatihu
  */
-@WebServlet(name = "VerCarrera", urlPatterns = {"/VerCarrera"})
-public class VerCarrera extends HttpServlet {
+@WebServlet(name = "VerGrafica", urlPatterns = {"/VerGrafica"})
+public class VerGrafica extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -36,17 +42,26 @@ public class VerCarrera extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        /* TODO output your page here. You may use following sample code. */
-        CarreraDao dao = new CarreraDaoImpl();
-        Carrera carrera = new Carrera();
-        carrera.setId(Integer.parseInt(request.getParameter("id")));
+        String archivo = getServletConfig().getServletContext().getRealPath("/static/img/grafica.png");
+        JFreeChart chart = ChartFactory.createPieChart("Cantidad de alumnos por carrera", 
+                getGraficaAlumnos(), true, true, false);
+        ChartUtilities.saveChartAsPNG(new File(archivo), chart, 600, 400);
+        request.setAttribute("pagina", 4);
+        request.getRequestDispatcher("verGrafica.jsp").forward(request, response);
+    }
+    
+    private DefaultPieDataset getGraficaAlumnos() {
+        DefaultPieDataset dpd = new DefaultPieDataset();
         try {
-            carrera = dao.read(carrera);
-            request.setAttribute("carrera", carrera);
-            request.getRequestDispatcher("verCarrera.jsp").forward(request, response);
+            AlumnoDao dao = new AlumnoDaoImpl();
+            List<Datos> datos = dao.getData();
+            datos.forEach((d) -> {
+                dpd.setValue(d.getNombre(), d.getCantidad());
+            });
         } catch (SQLException ex) {
-            Logger.getLogger(VerCarrera.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(VerGrafica.class.getName()).log(Level.SEVERE, null, ex);
         }
+        return dpd;
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

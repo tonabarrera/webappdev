@@ -5,9 +5,13 @@
  */
 package view;
 
+import dao.AlumnoDao;
+import dao.AlumnoDaoImpl;
+import dao.CarreraDao;
 import dao.CarreraDaoImpl;
-import dto.Carrera;
+import dto.Alumno;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -16,14 +20,13 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import dao.CarreraDao;
 
 /**
  *
  * @author tonatihu
  */
-@WebServlet(name = "VerCarrera", urlPatterns = {"/VerCarrera"})
-public class VerCarrera extends HttpServlet {
+@WebServlet(name = "VerAlumno", urlPatterns = {"/VerAlumno"})
+public class VerAlumno extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -36,16 +39,17 @@ public class VerCarrera extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        /* TODO output your page here. You may use following sample code. */
-        CarreraDao dao = new CarreraDaoImpl();
-        Carrera carrera = new Carrera();
-        carrera.setId(Integer.parseInt(request.getParameter("id")));
+        AlumnoDao dao = new AlumnoDaoImpl();
+        CarreraDao daoCarrera = new CarreraDaoImpl();
+        Alumno alumno = new Alumno();
+        alumno.setNoBoleta(Long.valueOf(request.getParameter("id")));
         try {
-            carrera = dao.read(carrera);
-            request.setAttribute("carrera", carrera);
-            request.getRequestDispatcher("verCarrera.jsp").forward(request, response);
+            alumno = dao.read(alumno);
+            alumno.setCarrera(daoCarrera.read(alumno.getCarrera()));
+            request.setAttribute("alumno", alumno);
+            request.getRequestDispatcher("verAlumno.jsp").forward(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(VerCarrera.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(VerAlumno.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

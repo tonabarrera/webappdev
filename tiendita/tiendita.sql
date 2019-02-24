@@ -14,4 +14,6 @@ create table articulos(
 	foreign key(categoria_id) references categorias(categoria_id) 
 	on update cascade on delete cascade
 );
-select * from articulos;
+select * from categorias;
+insert into categorias(nombre, descripcion) values('Tacos', 'Los tacos son comida'); 
+
