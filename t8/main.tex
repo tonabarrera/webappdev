@@ -1,0 +1,137 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{graphicx}
+\usepackage{url}
+\usepackage{float}
+\usepackage{listings}
+\usepackage{courier}
+\usepackage[T1]{fontenc}
+\usepackage{xcolor}
+\definecolor{gris}{RGB}{123, 126, 132}
+\definecolor{morado}{RGB}{81, 40, 155}
+\definecolor{amarillo}{RGB}{253,151,31}
+\definecolor{magenta}{RGB}{249,38,114}
+
+\lstdefinestyle{customJava}{
+    frame=tb,
+    language=Java,
+    backgroundcolor=\color{white},   
+    commentstyle=\itshape\color{gris},
+    keywordstyle=\bfseries\color{magenta},
+    numberstyle=\color{morado},
+    stringstyle=\color{amarillo},
+    identifierstyle=\color{black},
+    basicstyle=\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2,
+}
+
+\renewcommand{\lstlistingname}{Código}
+
+%opening
+\title{Tarea No. 8. Metodos}
+\author{Barrera Pérez Carlos Tonatihu \\ Profesor: José Asunción Enríquez 
+Zárate \\ Web Application Development \\ Grupo: 3CM9 }
+
+\begin{document}
+
+\maketitle
+\newpage
+\tableofcontents
+\newpage
+
+
+\section{Introducción}
+En esta tarea se trabajaron tres métodos diferentes los cuales en un inicio 
+pareciera que hacen lo mismo, sin embargo esto no tiene porque ser del todo 
+cierto, es por esto que se explicara el como funciona cada uno de estos métodos 
+y el funcionamiento que realizan.
+\section{Desarrollo}
+
+\begin{lstlisting}[language=Java, style=customJava, 
+caption={Método Uno}, captionpos=b, basicstyle=\fontfamily{cmss}\small]
+// El metodo recibe los parametros de request y response
+public void metodoUno(HttpServletRequest request, HttpServletResponse response) 
+{
+        // Se trata de obtener una sesion asociada con el request
+        // Si dicha sesion no existe se crea una ya que el parametro que se pasa
+        // al metodo getSession es true
+        HttpSession s = request.getSession(true);
+        // Ya que tenemos la sesion introducimos un atributo de nombre "nombre" 
+        // y con el valor "valor"
+        s.setAttribute("nombre", "valor");
+    }
+\end{lstlisting}
+
+\begin{lstlisting}[language=Java, style=customJava, 
+caption={Método Dos}, captionpos=b, basicstyle=\fontfamily{cmss}\small]
+// El metodo recibe los parametros de request y response
+public void metodoDos(HttpServletRequest request, HttpServletResponse response) 
+{
+        /* Se trata de obtener una sesion asociada con el request
+        * Si dicha sesion no existe se crea una ya que el parametro que se pasa
+        * al metodo getSession es true
+        */
+        HttpSession s = request.getSession(true);
+        /* Ya que la sesion es valida se intenta remover el atributo "nombre"
+        * si no existe este atributo no pasa nada
+        */
+        s.removeAttribute("nombre");
+        /*
+        * Verificamos si la sesion no es nula, 
+        * lo cual siempre es verdadero
+        * debido a lo explicado con anterioridad
+        */
+        if (s != null){
+        /* Ahora se invalida la sesion por lo cual 
+        *  ya no se podra utilizar
+        *  y se tendra que crear una nueva si es que se necesita
+        */
+            s.invalidate();
+        }
+    }
+\end{lstlisting}
+
+\begin{lstlisting}[language=Java, style=customJava, 
+caption={Método Tres}, captionpos=b, basicstyle=\fontfamily{cmss}\small]
+/* El metodo recibe los parametros de request y response
+* el metodo tiene por tipo de retorno void, sin embargo en el metodo
+* se regresan datos de tipo boolean, lo cual es un error
+*/
+public void metodoTres(HttpServletRequest request, HttpServletResponse 
+response) {
+       /* Se trata de obtener una sesion asociada con el request
+        * Si dicha sesion no existe no se crea y retorna null 
+        * ya que el parametro que se pasa
+        * al metodo getSession es false
+        */
+        HttpSession s = request.getSession(false);
+        /*Si la sesion es nula regresamos false*/
+        if (s == null)
+            return false;
+        else {
+        /* Se trata de obtener el atributo "nombre", en el caso
+        * de que no exista se obtiene un null y por ende el metodo
+        * regresa false en caso contrario regresa true
+        * si su valor de "nombre" no es nulo
+        */
+            return s.getAttribute("nombre") != null;
+        }
+    }
+\end{lstlisting}
+
+\section{Conclusiones}
+El analizar distintos tipos de situaciones en el desarrollo de aplicaciones es 
+importe, esta tarea es una muestra de ello. El realizar este ejercicio de 
+análisis permite reforzar el aprendizaje que se tiene.
+
+\end{document}
