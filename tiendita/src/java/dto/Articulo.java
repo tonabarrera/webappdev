@@ -5,24 +5,26 @@
  */
 package dto;
 
+import java.io.Serializable;
+
 /**
  *
  * @author tonatihu
  */
-public class Articulo {
-    private int clave;
+public class Articulo implements Serializable {
+    private int id;
     private String nombre;
     private String descripcion;
     private double precio;
     private int existencia;
     private Categoria categoria;
 
-    public int getClave() {
-        return clave;
+    public int getId() {
+        return id;
     }
 
-    public void setClave(int clave) {
-        this.clave = clave;
+    public void setId(int clave) {
+        this.id = clave;
     }
 
     public String getNombre() {
@@ -67,7 +69,7 @@ public class Articulo {
 
     @Override
     public String toString() {
-        return "Articulo{" + "clave=" + clave + ", nombre=" + nombre 
+        return "Articulo{" + "clave=" + id + ", nombre=" + nombre 
                 + ", descripcion=" + descripcion + ", precio=" + precio 
                 + ", existencia=" + existencia + ", categoria=" + categoria + '}';
     }

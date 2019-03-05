@@ -24,7 +24,7 @@ public class Conexion {
     public void conectar() {
         String user = "postgres";
         String pwd = "postgres";
-        String url = "jdbc:postgresql://localhost:5432/productos";
+        String url = "jdbc:postgresql://localhost:5432/tiendita";
         //String driver = "com.mysql.jdbc.Driver";
         String driver = "org.postgresql.Driver";
         try {
