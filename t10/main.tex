@@ -1,0 +1,73 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{url}
+
+%opening
+\title{Tarea No. 10. ORM}
+\author{Barrera Pérez Carlos Tonatihu \\ Profesor: José Asunción Enríquez 
+Zárate \\ Web Application Development \\ Grupo: 3CM9 }
+
+\begin{document}
+
+\maketitle
+\newpage
+\tableofcontents
+\newpage
+
+\section{Introducción}
+La presente tarea es una investigación sobre el Mapeo Objeto-Relacional (ORM 
+por sus siglas en inglés), sus ventajas y desventajas y con información general 
+sobre este tema.
+\section{Desarrollo}
+ORM es un mecanismo que hace posible acceder y manipular objetos sin tener que 
+considerar como esos objetos están relacionados a la fuente de datos. Los ORM 
+permiten a los programadores mantener la consistencia en los objetos a través 
+del tiempo incluso cuando las fuentes de las que provienen, que las consumen o 
+que las aplicaciones que acceden a ellos cambia. \cite{search}
+
+\subsection{Ventajas y desventajas de los ORM}
+Ventajas
+\begin{itemize}
+ \item No tienes que escribir código SQL en la mayoría de los casos.
+ \item Te dejan sacar partido a las bondades de la programación orientada a 
+objetos.
+ \item Nos permiten aumentar la reutilización del código y mejorar el 
+mantenimiento del mismo, ya que tenemos un único modelo en un único lugar, 
+que podemos reutilizar en toda la aplicación, y sin mezclar consultas con 
+código o mantener sincronizados los cambios de la base de datos con el modelo 
+y viceversa. 
+ \item Hacen muchas cosas por nosotros: desde el acceso a los datos, hasta 
+la conversión de tipos o la internacionalización del modelo de datos. \cite{orm}
+\end{itemize}
+Desventajas
+\begin{itemize}
+ \item Pueden llegar a ser muy complejos.
+ \item No son ligeros por regla general.
+ \item Si no sabes bien lo que estás haciendo y las implicaciones que tiene en 
+el modelo relacional puedes construir modelos que generen consultas monstruosas 
+y muy poco óptimas contra la base de datos, agravando el problema del 
+rendimiento y la eficiencia.
+ \item La configuración inicial que requieren se puede complicar dependiendo 
+de la cantidad de entidades que se manejen y su complejidad, del gestor de 
+datos subyacente, etc. \cite{orm}
+\end{itemize}
+
+Al trabajar con Java existen varias opciones a considerar, el ORM más popular 
+es Hibernate de Red Hat. Hay muchos otros como Jooq, ActiveJDBC que trata de 
+emular los Active Records de Ruby On Rails, o QueryDSL, pero en realidad ninguno 
+llega ni por asomo al nivel de uso de Hibernate.
+
+\section{Conclusiones}
+El utilizar ORM puede llegar a ser un arma de doble filo, debido a que en un 
+inicio parece facilitar el desarrollo de aplicación al hacer el acceso de datos 
+una parte más homogénea respecto al resto de desarrollo que se tiene; pero si 
+no se tiene la suficiente experiencia con estas herramientas pude resultar en 
+grandes problemas en la aplicación.
+
+Es por esto que la elección de usar o no debe de estar bien fundamentada y no 
+simplemente usar un ORM porque se ve bonito.
+
+\bibliographystyle{ieeetr}
+\bibliography{referencias}
+\end{document}
