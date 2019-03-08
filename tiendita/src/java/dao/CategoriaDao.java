@@ -5,6 +5,7 @@
  */
 package dao;
 
+import dto.Categoria;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -13,5 +14,7 @@ import java.util.List;
  * @author tonatihu
  */
 public interface CategoriaDao {
-    List readAll() throws SQLException;
+    List<Categoria> readAll() throws SQLException;
+    Categoria read(Categoria c) throws SQLException ;
+    void delete(Categoria c) throws SQLException ;
 }

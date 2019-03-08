@@ -10,13 +10,8 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
         <title>Lista Categorias</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link href="static/css/bootstrap.min.css" rel="stylesheet">
-        <link href="static/font-awesome/css/font-awesome.css" rel="stylesheet">
-        <link href="static/css/style.css" rel="stylesheet">
-        <link href="static/css/animate.css" rel="stylesheet">
+        <%@include file="WEB-INF/jspf/headTag.jspf" %>
     </head>
     <body class="">
         <div id="wrapper">
@@ -37,9 +32,15 @@
                                         <table class="table table-striped">
                                             <thead>
                                                 <tr>
+                                                    <th colspan="3"></th>
+                                                    <th cospan="" class="text-center">Acciones</th>
+                                                </tr>
+                                                <tr>
                                                     <th>Id</th>
                                                     <th>Nombre</th>
                                                     <th>Descripción</th>
+                                                    <th>Editar</th>
+                                                    <th>Eliminar</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -48,6 +49,16 @@
                                                         <td><c:out value="${categoria.id}"></c:out></td>
                                                         <td><c:out value="${categoria.nombre}"></c:out></td>
                                                         <td><c:out value="${categoria.descripcion}"></c:out></td>
+                                                        <td>
+                                                            <a href="?accion=editar&id=${categoria.id}">
+                                                                <i class="fa fa-edit" style="font-size: 2rem"></i>
+                                                            </a>
+                                                        </td>
+                                                        <td>
+                                                            <a href="?accion=eliminar&id=${categoria.id}">
+                                                                <i class="fa fa-trash" style="font-size: 2rem"></i>
+                                                            </a>
+                                                        </td>
                                                     </tr>
                                                 </c:forEach>
                                             </tbody>
@@ -61,12 +72,7 @@
                 <%@include file="WEB-INF/jspf/footer.jspf" %>
             </div>
         </div>
-        <script src="static/js/jquery-3.1.1.min.js"></script>
-        <script src="static/js/bootstrap.min.js"></script>
-        <script src="static/js/plugins/metisMenu/jquery.metisMenu.js"></script>
-        <script src="static/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
-        
-        <script src="static/js/inspinia.js"></script>
-        <script src="static/js/plugins/pace/pace.min.js"></script>
+            
+        <%@include file="WEB-INF/jspf/jsFiles.jspf" %>
     </body>
 </html>

@@ -3,10 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package servlets;
+package view;
 
 import dao.CategoriaDaoImpl;
 import dao.CategoriaDao;
+import dto.Categoria;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
@@ -34,24 +35,9 @@ public class CategoriaServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        /*
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code.
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet CategoriaServlet</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet CategoriaServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
-    */
         String accion = request.getParameter("accion");
         if(accion.equals("listaDeCategorias")){
-            listadoDeCategorias(request,response);
+            listarCategorias(request,response);
         } else if (accion.equals("nuevaCategoria")){
             crearCategoria(request,response);
         } else if(accion.equals("eliminarCategoria")){
@@ -100,12 +86,12 @@ public class CategoriaServlet extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    private void listadoDeCategorias(HttpServletRequest request, HttpServletResponse response) {
+    private void listarCategorias(HttpServletRequest request, HttpServletResponse response) {
         try {
             CategoriaDao dao = new CategoriaDaoImpl();
             List lista = dao.readAll();
-            System.out.println("Lista tam: " + lista.size());
             request.setAttribute("categorias", lista);
+            request.setAttribute("pagina", Pagina.VER_CATEGORIAS);
             request.getRequestDispatcher("listaCategorias.jsp").forward(request, response);
         } catch (ServletException | IOException | SQLException ex) {
             Logger.getLogger(CategoriaServlet.class.getName()).log(Level.SEVERE, null, ex);
@@ -117,7 +103,17 @@ public class CategoriaServlet extends HttpServlet {
     }
 
     private void eliminarCategoria(HttpServletRequest request, HttpServletResponse response) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            CategoriaDao dao = new CategoriaDaoImpl();
+            Categoria c = new Categoria();
+            int id = Integer.parseInt(request.getParameter("id"));
+            c.setId(id);
+            c = dao.read(c);
+            dao.delete(c);
+            listarCategorias(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(CategoriaServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     private void almacenarCategoria(HttpServletRequest request, HttpServletResponse response) {
