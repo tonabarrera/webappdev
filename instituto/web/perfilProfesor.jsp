@@ -77,20 +77,6 @@
                                                    readonly />
                                         </div>
                                     </div>
-                                    <div class="form-group">
-                                        <label class="col-sm-2 control-label">
-                                            Materias que imparto:
-                                        </label>
-                                        <div class="col-sm-10">
-                                            <select multiple class="form-control">
-                                                <c:forEach items="${materias}" var="materia">
-                                                    <option value="${materia.id}" <c:if test="${materia.profesor.numeroProfesor != null}">selected</c:if>>
-                                                        <c:out value="${materia.nombre}"/>
-                                                    </option>
-                                                </c:forEach>
-                                            </select>
-                                        </div>
-                                    </div>
                                     <div class="hr-line-dashed"></div>
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label">

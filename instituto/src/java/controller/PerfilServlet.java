@@ -68,11 +68,7 @@ public class PerfilServlet extends HttpServlet {
         } else {
              try {
                 ProfesorDao profesorDao = new ProfesorDaoImpl();
-                MateriaDao materiaDao = new MateriaDaoImpl();
                 Profesor profesor = profesorDao.findByUsername(username);
-                List<Materia> materias = materiaDao.findAllFreeSubjects();
-                materias.addAll(materiaDao.findSubjectsByProfessor(profesor));
-                request.setAttribute("materias", materias);
                 request.setAttribute("profesor", profesor);
                 request.getRequestDispatcher("perfilProfesor.jsp").forward(request, response);
             } catch (SQLException ex) {
