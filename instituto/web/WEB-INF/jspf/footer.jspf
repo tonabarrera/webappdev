@@ -1,0 +1,10 @@
+<%-- any content can be specified here e.g.: --%>
+<%@ page pageEncoding="UTF-8" %>
+<div class="footer">
+    <div class="pull-right">
+        Web Application Developmet
+    </div>
+    <div>
+        <strong>Instituto</strong>
+    </div>
+</div>
