@@ -24,7 +24,7 @@
                         <div class="col-lg-12">
                             <div class="ibox float-e-margins">
                                 <div class="ibox-title">
-                                    <h4>Cantidad de estudiantes por carrera</h4>
+                                    <h4>Cantidad de Alumnos por Carrera</h4>
                                 </div>
                                 <div class="ibox-content center-block">
                                     <div class="table-responsive">
