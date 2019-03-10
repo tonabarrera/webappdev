@@ -7,7 +7,9 @@
 package dao;
 
 import dto.Alumno;
+import dto.Datos;
 import java.sql.SQLException;
+import java.util.List;
 
 /**
  *
@@ -16,4 +18,6 @@ import java.sql.SQLException;
  */
 public interface AlumnoDao {
     Alumno findByUsername(String username) throws SQLException;
+    List<Alumno> readAll() throws SQLException;
+    List<Datos> getData() throws SQLException;
 }

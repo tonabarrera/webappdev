@@ -9,14 +9,11 @@ package controller;
 import dao.AlumnoDao;
 import dao.impl.AlumnoDaoImpl;
 import dao.CarreraDao;
-import dao.MateriaDao;
 import dao.impl.CarreraDaoImpl;
 import dao.ProfesorDao;
-import dao.impl.MateriaDaoImpl;
 import dao.impl.ProfesorDaoImpl;
 import dto.Alumno;
 import dto.Carrera;
-import dto.Materia;
 import dto.Profesor;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -52,7 +49,7 @@ public class PerfilServlet extends HttpServlet {
         HttpSession session = request.getSession();
         String username = session.getAttribute("USERNAME").toString();
         int tipo = (int) session.getAttribute("TIPO");
-        request.setAttribute("pagina", Paginas.PERFIL);
+        request.setAttribute("PAGINA", Paginas.PERFIL);
         if (tipo == 1) {
             try {
                 CarreraDao dao = new CarreraDaoImpl();

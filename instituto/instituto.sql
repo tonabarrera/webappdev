@@ -143,4 +143,4 @@ CREATE TABLE respuestas(
     ON UPDATE CASCADE ON DELETE CASCADE
 );
 
-
+CALL sp_get_data();

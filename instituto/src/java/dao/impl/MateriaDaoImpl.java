@@ -25,6 +25,7 @@ import utils.Conexion;
 public class MateriaDaoImpl implements MateriaDao{
     private static final String SQL_FIND_FREE_SUBJECTS = "SELECT * FROM materias WHERE profesor_num IS NULL;";
     private static final String SQL_FIND_BY_PROFESOR = "SELECT * FROM materias WHERE profesor_num=?;";
+    private static final String SQL_READ_ALL = "SELECT * FROM materias;";
     private Conexion conexion;
 
     public MateriaDaoImpl() {

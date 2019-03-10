@@ -16,5 +16,7 @@ import java.util.List;
  * Created on 09-Mar-2019
  */
 public interface CarreraDao {
-    List<Carrera> readAll() throws SQLException ;
+    List<Carrera> readAll() throws SQLException;
+    void delete(Carrera carrera) throws SQLException;
+    Carrera read(Carrera carrera) throws SQLException;
 }

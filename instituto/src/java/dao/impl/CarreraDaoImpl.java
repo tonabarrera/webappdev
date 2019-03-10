@@ -22,7 +22,9 @@ import utils.Conexion;
  */
 public class CarreraDaoImpl implements CarreraDao{
     private static final String SQL_SELECT_ALL = "SELECT * FROM carreras";
-    private Conexion conexion;
+    private static final String SQL_DELETE = "DELETE FROM carreras where carrera_id=?;";
+    private static final String SQL_SELECT = "SELECT * FROM carreras where carrera_id=?";
+    private final Conexion conexion;
 
     public CarreraDaoImpl() {
         conexion = new Conexion();
@@ -63,5 +65,44 @@ public class CarreraDaoImpl implements CarreraDao{
         }
         return resultados;
     }
+
+    @Override
+    public void delete(Carrera carrera) throws SQLException {
+        PreparedStatement ps = null;
+        conexion.conectar();
+        try {
+            ps = conexion.createPreparedStatement(SQL_DELETE);
+            ps.setInt(1, carrera.getId());
+            ps.executeUpdate();
+        } finally {
+            if (ps != null)
+                conexion.cerrar(ps);
+            conexion.cerrar();
+        }
+    }
+
+    @Override
+    public Carrera read(Carrera c) throws SQLException  {
+       PreparedStatement ps = null;
+       ResultSet rs = null;
+       conexion.conectar();
+       try {
+           ps = conexion.createPreparedStatement(SQL_SELECT);
+           ps.setInt(1, c.getId());
+           rs = ps.executeQuery();
+           List<Carrera> resultados = obtenerResultados(rs);
+           if (resultados.size() > 0) {
+               return resultados.get(0);
+           } else {
+               return null;
+           }
+       } finally {
+           if (ps != null)
+               conexion.cerrar(ps);
+           if (rs != null)
+               conexion.cerrar(rs);
+           conexion.cerrar();
+       }
+   }
 
 }

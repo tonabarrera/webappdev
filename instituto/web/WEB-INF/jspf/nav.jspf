@@ -18,16 +18,58 @@
                     </a>
                 </div>
             </li>
-            <li class="<c:if test="${pagina==1}">active</c:if>">
+            <li class="<c:if test="${PAGINA==1}">active</c:if>">
                 <a href="home">
                     <i class="fa fa-home"></i>
                     <span class="nav-label">Inicio</span>
                 </a>
             </li>
-            <li class="<c:if test="${pagina==2}">active</c:if>">
+            <li class="<c:if test="${PAGINA==2}">active</c:if>">
                 <a href="perfil">
                     <i class="fa fa-user-circle-o"></i>
                     <span class="nav-label">Perfil</span>
+                </a>
+            </li>
+            <li class="<c:if test="${PAGINA==3 or PAGINA==4}">active</c:if>">
+                <a href="#">
+                    <i class="fa fa-university"></i>
+                    <span class="nav-label">Carreras</span>
+                    <span class="fa arrow"></span>
+                </a>
+                <ul class="nav nav-second-level collapse">
+                    <li class="<c:if test="${PAGINA==3}">active</c:if>">
+                        <a href="carreras?action=ver">Ver Carreras</a>
+                    </li>
+                    <li class="<c:if test="${PAGINA==4}">active</c:if>">
+                        <a href="carreras?action=agregar">Agregar Carrera</a>
+                    </li>
+                </ul>
+            </li>
+            <li class="<c:if test="${PAGINA==5 or PAGINA==6}">active</c:if>">
+                <a href="#">
+                    <i class="fa fa-book"></i>
+                    <span class="nav-label">Materias</span>
+                    <span class="fa arrow"></span>
+                </a>
+                <ul class="nav nav-second-level collapse">
+                    <li class="<c:if test="${PAGINA==5}">active</c:if>">
+                        <a href="materias?action=ver">Ver Materias</a>
+                    </li>
+                    <li class="<c:if test="${PAGINA==6}">active</c:if>">
+                        <a href="materias?action=agregar">Agregar Materia</a>
+                    </li>
+                </ul>
+            </li>
+            <li class="<c:if test="${PAGINA==7}">active</c:if>">
+                <a href="alumnos?action=ver">
+                    <i class="fa fa-group"></i>
+                    <span class="nav-label">Alumnos</span>
+                </a>
+            </li>
+            <li class="<c:if test="${PAGINA ==8}">active</c:if>">
+                <a href="graficas">
+                    <i class="fa fa-pie-chart"></i>
+                    <span class="nav-label">Graficas</span>
                 </a>
             </li>
         </ul>

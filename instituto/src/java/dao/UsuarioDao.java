@@ -21,4 +21,5 @@ public interface UsuarioDao {
     Usuario findByUsername(String username) throws SQLException;
     void create(Alumno student) throws SQLException;
     void create(Profesor professor) throws SQLException;
+    void delete(Usuario usuario) throws SQLException;
 }
