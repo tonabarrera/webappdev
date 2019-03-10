@@ -21,4 +21,11 @@ public class Profesor extends Usuario{
     public void setNumeroProfesor(String numeroProfesor) {
         this.numeroProfesor = numeroProfesor;
     }
+
+    @Override
+    public String toString() {
+        return "Profesor{" + "numeroProfesor=" + numeroProfesor + '}';
+    }
+    
+    
 }

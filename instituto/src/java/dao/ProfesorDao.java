@@ -6,11 +6,14 @@
 
 package dao;
 
+import dto.Profesor;
+import java.sql.SQLException;
+
 /**
  *
  * @author tonatihu
  * Created on 09-Mar-2019
  */
 public interface ProfesorDao {
-
+    Profesor findByUsername(String username) throws SQLException;
 }

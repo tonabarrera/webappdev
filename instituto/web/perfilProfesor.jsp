@@ -33,7 +33,7 @@
                                         <div class="col-sm-10">
                                             <input type="text" 
                                                    name="nombre" required 
-                                                   value="${alumno.nombre}" 
+                                                   value="${profesor.nombre}" 
                                                    class="form-control"
                                                    placeholder="Nombre"/>
                                         </div>
@@ -45,7 +45,7 @@
                                         <div class="col-sm-10">
                                             <input type="text" 
                                                    name="apPaterno" 
-                                                   required value="${alumno.apPaterno}" 
+                                                   required value="${profesor.apPaterno}" 
                                                    class="form-control"
                                                    placeholder="Apellido Paterno"/>
                                         </div>
@@ -58,7 +58,7 @@
                                             <input type="text" 
                                                    name="apMaterno" 
                                                    required 
-                                                   value="${alumno.apMaterno}" 
+                                                   value="${profesor.apMaterno}" 
                                                    class="form-control"
                                                    placeholder="Apellido Materno"/>
                                         </div>
@@ -71,10 +71,24 @@
                                         <div class="col-sm-10">
                                             <input type="number" 
                                                    name="boleta" required 
-                                                   value="${alumno.boleta}" 
+                                                   value="${profesor.numeroProfesor}" 
                                                    class="form-control"
-                                                   placeholder="Boleta" 
+                                                   placeholder="Número de Profesor" 
                                                    readonly />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">
+                                            Materias que imparto:
+                                        </label>
+                                        <div class="col-sm-10">
+                                            <select multiple class="form-control">
+                                                <c:forEach items="${materias}" var="materia">
+                                                    <option value="${materia.id}" <c:if test="${materia.profesor.numeroProfesor != null}">selected</c:if>>
+                                                        <c:out value="${materia.nombre}"/>
+                                                    </option>
+                                                </c:forEach>
+                                            </select>
                                         </div>
                                     </div>
                                     <div class="hr-line-dashed"></div>
@@ -86,7 +100,7 @@
                                             <input type="email" 
                                                    name="correo" 
                                                    required 
-                                                   value="${alumno.email}" 
+                                                   value="${profesor.email}" 
                                                    class="form-control"
                                                    placeholder="Email"/>
                                         </div>
@@ -99,7 +113,7 @@
                                             <input type="text" 
                                                    name="username" 
                                                    required 
-                                                   value="${alumno.username}" 
+                                                   value="${profesor.username}" 
                                                    class="form-control"
                                                    placeholder="Nombre de usuario"/>
                                         </div>
@@ -112,7 +126,7 @@
                                             <input type="password" 
                                                    name="password" 
                                                    required 
-                                                   value="${alumno.password}" 
+                                                   value="${profesor.password}" 
                                                    class="form-control"
                                                    placeholder="Contraseña"/>
                                         </div>

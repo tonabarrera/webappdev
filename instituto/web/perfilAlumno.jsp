@@ -93,7 +93,7 @@
                                                 </option>
 
                                                 <c:forEach items="${carreras}" var="carrera">
-                                                    <option value="${carrera.id}" <c:if test="{alumno.carrera.id==carrera.id}">selected</c:if>>
+                                                    <option value="${carrera.id}" <c:if test="${alumno.carrera.id==carrera.id}">selected</c:if>>
                                                         ${carrera.nombre}
                                                     </option>
                                                 </c:forEach>

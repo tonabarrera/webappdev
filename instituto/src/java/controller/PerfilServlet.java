@@ -16,6 +16,8 @@ import dao.impl.MateriaDaoImpl;
 import dao.impl.ProfesorDaoImpl;
 import dto.Alumno;
 import dto.Carrera;
+import dto.Materia;
+import dto.Profesor;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
@@ -64,9 +66,18 @@ public class PerfilServlet extends HttpServlet {
                 Logger.getLogger(PerfilServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else {
-           ProfesorDao profesorDao = new ProfesorDaoImpl();
-           MateriaDao materiaDao = new MateriaDaoImpl();
-           
+             try {
+                ProfesorDao profesorDao = new ProfesorDaoImpl();
+                MateriaDao materiaDao = new MateriaDaoImpl();
+                Profesor profesor = profesorDao.findByUsername(username);
+                List<Materia> materias = materiaDao.findAllFreeSubjects();
+                materias.addAll(materiaDao.findSubjectsByProfessor(profesor));
+                request.setAttribute("materias", materias);
+                request.setAttribute("profesor", profesor);
+                request.getRequestDispatcher("perfilProfesor.jsp").forward(request, response);
+            } catch (SQLException ex) {
+                Logger.getLogger(PerfilServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     } 
 

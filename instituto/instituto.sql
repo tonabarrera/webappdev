@@ -5,7 +5,7 @@ DROP TABLE profesores;
 DROP TABLE profesores_materias;
 DROP TABLE alumnos_carreras;
 DROP TABLE respuestas;
-
+CALL sp_buscar_profesor_username('jojojo');
 CREATE TABLE usuarios(
     usuario_id INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(30) NOT NULL,
@@ -75,12 +75,18 @@ CREATE TABLE materias(
     nombre VARCHAR(30) NOT NULL,
     descripcion VARCHAR(30),
     carrera_id INT NOT NULL,
+    profesor_num VARCHAR(30),
     FOREIGN KEY(carrera_id) REFERENCES carreras(carrera_id) 
-    ON DELETE CASCADE ON UPDATE CASCADE
+    ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY(profesor_num) REFERENCES profesores(profesor_num) 
+    ON UPDATE CASCADE
 );
 ALTER TABLE materias ADD COLUMN profesor_num VARCHAR(30);
 ALTER TABLE materias ADD FOREIGN KEY(profesor_num) REFERENCES profesores(profesor_num) 
     ON UPDATE CASCADE;
+SELECT * FROM profesores;
+INSERT INTO materias(nombre, descripcion, carrera_id, profesor_num) 
+    VALUES('Algoritmos Geneticos', 'Es Chida', 1, '20122012');
 
 CREATE TABLE profesores_materias(
     materia_id INT NOT NULL,

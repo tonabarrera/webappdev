@@ -6,11 +6,17 @@
 
 package dao;
 
+import dto.Materia;
+import dto.Profesor;
+import java.sql.SQLException;
+import java.util.List;
+
 /**
  *
  * @author tonatihu
  * Created on 09-Mar-2019
  */
 public interface MateriaDao {
-
+    List<Materia> findAllFreeSubjects() throws SQLException;
+    List<Materia> findSubjectsByProfessor(Profesor profesor) throws SQLException;
 }
