@@ -58,7 +58,7 @@ CREATE TABLE carreras(
     descripcion VARCHAR(100),
     duracion INT NOT NULL
 );
-INSERT INTO carreras(nombre, descripcion, duracion) VALUES('ISC', 'Es chida', 7);
+INSERT INTO carreras(nombre, descripcion, duracion) VALUES('Física', 'Es chevere', 4);
 
 /*CREATE TABLE alumnos_carreras(
     alumno_boleta VARCHAR(30) NOT NULL,
@@ -144,3 +144,8 @@ CREATE TABLE respuestas(
 );
 
 CALL sp_get_data();
+SELECT COUNT(a.boleta) AS "cantidad",
+    nombre AS "carrera"
+FROM carreras AS c
+    LEFT JOIN alumnos AS a ON 
+     'NULL' = 'NULL';

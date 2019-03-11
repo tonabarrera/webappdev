@@ -40,6 +40,7 @@ public class RecuperarContraServlet extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         String email = request.getParameter("email");
         UsuarioDao dao = new UsuarioDaoImpl();
+        String archivo = getServletConfig().getServletContext().getRealPath("/static/img/grafica.png");
         if (email != null) {
             try {
                 EnvioEmail e = new EnvioEmail();
@@ -49,7 +50,7 @@ public class RecuperarContraServlet extends HttpServlet {
                 if (u != null) {
                     String mensaje = "Tu contraseña es: " + u.getPassword();
                     e.setMensaje(mensaje);
-                    e.enviar();
+                    e.enviar(archivo);
                     response.sendRedirect("login");
                     return;
                 }

@@ -65,9 +65,6 @@
                                             </tbody>
                                         </table>
                                     </div>
-                                    <div class="row">
-                                        <button class="btn btn-primary pull-right">Imprimir tabla</button>
-                                    </div>
                                 </div>
                             </div>
                         </div>
