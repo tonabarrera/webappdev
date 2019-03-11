@@ -25,6 +25,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import utils.Paginas;
 
 /**
  *
@@ -93,7 +94,7 @@ public class MateriasServlet extends HttpServlet {
     private void mostrarMaterias(HttpServletRequest request, HttpServletResponse response) 
             throws IOException, ServletException {
         try {
-            request.setAttribute("PAGINA", 5);
+            request.setAttribute("PAGINA", Paginas.MOSTRAR_MATERIAS);
             MateriaDao dao = new MateriaDaoImpl();
             CarreraDao daoMateria = new CarreraDaoImpl();
             ProfesorDao daoProfesor = new ProfesorDaoImpl();
@@ -115,7 +116,7 @@ public class MateriasServlet extends HttpServlet {
 
     private void agregarMateria(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException {
-        request.setAttribute("PAGINA", 6);
+        request.setAttribute("PAGINA", Paginas.AGREGAR_MATERIA);
         request.getRequestDispatcher("formMateria.jsp").forward(request, response);
     }
 

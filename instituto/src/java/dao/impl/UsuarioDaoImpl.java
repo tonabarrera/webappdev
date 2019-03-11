@@ -26,6 +26,7 @@ public class UsuarioDaoImpl implements UsuarioDao {
     private static final String SP_EXIST_BY_USERNAME_PASSWORD = "{call sp_exists_by_username_password(?, ?)}";
     private static final String SP_CREATE = "{call sp_crear_usuario(?, ?, ?, ?, ?, ?, ?, ?)}";
     private static final String SQL_FIND_BY_USERNAME = "SELECT * FROM usuarios WHERE username=?;";
+     private static final String SQL_FIND_BY_EMAIl = "SELECT * FROM usuarios WHERE email=?;";
     private static final String SQL_DELETE = "DELETE FROM usuarios where usuario_id=?;";
     private final Conexion conexion;
 
@@ -153,6 +154,31 @@ public class UsuarioDaoImpl implements UsuarioDao {
             ps.setInt(1, usuario.getId());
             ps.executeUpdate();
         } finally {
+            if (ps != null)
+                conexion.cerrar(ps);
+            conexion.cerrar();
+        }
+    }
+
+    @Override
+    public Usuario findByEmail(String email) throws SQLException {
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        conexion.conectar();
+        try {
+            ps = conexion.createPreparedStatement(SQL_FIND_BY_EMAIl);
+            ps.setString(1, email);
+            
+            rs = ps.executeQuery();
+            List<Usuario> resultados = obtenerResultados(rs);
+            if (resultados.size() > 0) {
+                return resultados.get(0);
+            } else {
+                return null;
+            }
+        } finally {
+            if (rs != null)
+                conexion.cerrar(rs);
             if (ps != null)
                 conexion.cerrar(ps);
             conexion.cerrar();

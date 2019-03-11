@@ -24,6 +24,7 @@ import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartUtilities;
 import org.jfree.chart.JFreeChart;
 import org.jfree.data.general.DefaultPieDataset;
+import utils.Paginas;
 
 /**
  *
@@ -45,7 +46,7 @@ public class GraficasServlet extends HttpServlet {
         try {
             response.setContentType("text/html;charset=UTF-8");
             request.setCharacterEncoding("UTF-8");
-            request.setAttribute("PAGINA", 8);
+            request.setAttribute("PAGINA", Paginas.GRAFICAS);
             AlumnoDao dao = new AlumnoDaoImpl();
             List<Datos> datos = dao.getData();
             request.setAttribute("lista", datos);

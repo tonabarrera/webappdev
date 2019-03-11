@@ -109,10 +109,10 @@ public class AlumnoDaoImpl implements AlumnoDao{
     }
     
     @Override
-    public List getData() throws SQLException {
+    public List<Datos> getData() throws SQLException {
         ResultSet rs = null;
         CallableStatement cs = null;
-        List lista = new ArrayList();
+        List<Datos> lista = new ArrayList<Datos>();
         conexion.conectar();
         try {
             cs = conexion.createCallableStatement(SP_GET_COUNT);

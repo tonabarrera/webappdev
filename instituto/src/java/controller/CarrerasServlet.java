@@ -19,6 +19,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import utils.Paginas;
 
 /**
  *
@@ -101,7 +102,7 @@ public class CarrerasServlet extends HttpServlet {
     private void verCarreras(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException {
         try {
-            request.setAttribute("PAGINA", 3);
+            request.setAttribute("PAGINA", Paginas.MOSTRAR_CARRERAS);
             CarreraDao dao = new CarreraDaoImpl();
             List<Carrera> carreras = dao.readAll();
             request.setAttribute("carreras", carreras);
@@ -133,7 +134,7 @@ public class CarrerasServlet extends HttpServlet {
             c.setId(id);
             c = dao.read(c);
             request.setAttribute("carrera", c);
-            request.setAttribute("PAGINA", 3);
+            request.setAttribute("PAGINA", Paginas.MOSTRAR_CARRERAS);
             request.getRequestDispatcher("formCarrera.jsp").forward(request, response);
         } catch (SQLException ex) {
             Logger.getLogger(CarrerasServlet.class.getName()).log(Level.SEVERE, null, ex);
@@ -142,7 +143,7 @@ public class CarrerasServlet extends HttpServlet {
 
     private void agregarCarrera(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException {
-        request.setAttribute("PAGINA", 4);
+        request.setAttribute("PAGINA", Paginas.AGREGAR_CARRERA);
         request.getRequestDispatcher("formCarrera.jsp").forward(request, response);
     }
 

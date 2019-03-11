@@ -6,12 +6,19 @@
 
 package controller;
 
+import dao.UsuarioDao;
+import dao.impl.UsuarioDaoImpl;
+import dto.Usuario;
 import java.io.IOException;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import utils.EnvioEmail;
 
 /**
  *
@@ -31,6 +38,26 @@ public class RecuperarContraServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
+        String email = request.getParameter("email");
+        UsuarioDao dao = new UsuarioDaoImpl();
+        if (email != null) {
+            try {
+                EnvioEmail e = new EnvioEmail();
+                e.setAsunto("Recuperar contraseña");
+                e.setDestinatario(email);
+                Usuario u = dao.findByEmail(email);
+                if (u != null) {
+                    String mensaje = "Tu contraseña es: " + u.getPassword();
+                    e.setMensaje(mensaje);
+                    e.enviar();
+                    response.sendRedirect("login");
+                    return;
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(RecuperarContraServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+        }
         request.getRequestDispatcher("forgotPassword.jsp").forward(request, response);
     } 
 
