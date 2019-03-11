@@ -11,6 +11,8 @@ import dto.Profesor;
 import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import utils.Conexion;
 
 /**
@@ -20,7 +22,8 @@ import utils.Conexion;
  */
 public class ProfesorDaoImpl implements ProfesorDao{
     private static final String FIND_BY_USERNAME = "{CALL sp_buscar_profesor_username(?)}";
-    private Conexion conexion;
+    private static final String SP_FIND_PROFESSOR = "{CALL sp_buscar_profesor(?)}";
+    private final Conexion conexion;
 
     public ProfesorDaoImpl() {
         conexion = new Conexion();
@@ -55,6 +58,48 @@ public class ProfesorDaoImpl implements ProfesorDao{
             conexion.cerrar();
         }
         return a;
+    }
+
+    @Override
+    public Profesor read(Profesor p) throws SQLException {
+        ResultSet rs = null;
+        CallableStatement cs = null;
+        conexion.conectar();
+        try {
+            cs = conexion.createCallableStatement(SP_FIND_PROFESSOR);
+            cs.setString(1, p.getNumeroProfesor());
+            rs = cs.executeQuery();
+            List<Profesor> resultados = obtenerResultados(rs);
+            if (resultados.size() > 0) {
+                return resultados.get(0);
+            } else {
+                return null;
+            }
+        } finally {
+            if (rs != null)
+                conexion.cerrar(rs);
+            if (cs != null)
+                conexion.cerrar(cs);
+            conexion.cerrar();
+        }
+    }
+    
+    private List<Profesor> obtenerResultados(ResultSet rs) throws SQLException {
+        List<Profesor> resultados = new ArrayList<>();
+        while (rs.next()) {
+            Profesor a = new Profesor();
+            a.setId(rs.getInt("usuario_id"));
+            a.setNombre(rs.getString("nombre"));
+            a.setApPaterno(rs.getString("ap_paterno"));
+            a.setApMaterno(rs.getString("ap_materno"));
+            a.setEmail(rs.getString("email"));
+            a.setUsername(rs.getString("username"));
+            a.setPassword(rs.getString("password"));
+            a.setNumeroProfesor(rs.getString("profesor_num"));
+            a.setType(rs.getInt("usuario_tipo"));
+            resultados.add(a);
+        }
+        return resultados;
     }
 
 }

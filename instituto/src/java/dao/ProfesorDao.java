@@ -16,4 +16,5 @@ import java.sql.SQLException;
  */
 public interface ProfesorDao {
     Profesor findByUsername(String username) throws SQLException;
+    Profesor read(Profesor p) throws SQLException;
 }

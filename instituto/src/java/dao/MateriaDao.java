@@ -19,4 +19,6 @@ import java.util.List;
 public interface MateriaDao {
     List<Materia> findAllFreeSubjects() throws SQLException;
     List<Materia> findSubjectsByProfessor(Profesor profesor) throws SQLException;
+    List<Materia> readAll() throws SQLException;
+    void delete(Materia materia) throws SQLException;
 }

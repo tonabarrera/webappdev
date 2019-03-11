@@ -25,8 +25,9 @@ import utils.Conexion;
 public class MateriaDaoImpl implements MateriaDao{
     private static final String SQL_FIND_FREE_SUBJECTS = "SELECT * FROM materias WHERE profesor_num IS NULL;";
     private static final String SQL_FIND_BY_PROFESOR = "SELECT * FROM materias WHERE profesor_num=?;";
-    private static final String SQL_READ_ALL = "SELECT * FROM materias;";
-    private Conexion conexion;
+    private static final String SQL_SELECT_ALL = "SELECT * FROM materias;";
+    private static final String SQL_DELETE = "DELETE FROM materias WHERE materia_id=?;";
+    private final Conexion conexion;
 
     public MateriaDaoImpl() {
         conexion = new Conexion();
@@ -91,6 +92,44 @@ public class MateriaDaoImpl implements MateriaDao{
             resultados.add(m);
         }
         return resultados;
+    }
+
+    @Override
+    public List<Materia> readAll() throws SQLException{
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        conexion.conectar();
+        try {
+            ps = conexion.createPreparedStatement(SQL_SELECT_ALL);
+            rs = ps.executeQuery();
+            List<Materia> resultados = obtenerResultados(rs);
+            if (resultados.size() > 0) {
+                return resultados;
+            } else {
+                return null;
+            }
+        } finally {
+           if (rs != null)
+                conexion.cerrar(rs);
+            if (ps != null)
+                conexion.cerrar(ps);
+            conexion.cerrar();
+        }
+    }
+
+    @Override
+    public void delete(Materia materia) throws SQLException {
+        PreparedStatement ps = null;
+        conexion.conectar();
+        try {
+            ps = conexion.createPreparedStatement(SQL_DELETE);
+            ps.setInt(1, materia.getId());
+            ps.executeUpdate();
+        } finally {
+            if (ps != null)
+                conexion.cerrar(ps);
+            conexion.cerrar();
+        }
     }
 
 }
