@@ -1,0 +1,175 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{listings}
+\usepackage{xcolor}
+\definecolor{gris}{RGB}{123, 126, 132}
+\definecolor{morado}{RGB}{81, 40, 155}
+\definecolor{amarillo}{RGB}{253,151,31}
+\definecolor{magenta}{RGB}{249,38,114}
+
+\lstdefinestyle{customJava}{
+    frame=tb,
+    language=Java,
+    backgroundcolor=\color{white},   
+    commentstyle=\itshape\color{gris},
+    keywordstyle=\bfseries\color{magenta},
+    numberstyle=\color{morado},
+    stringstyle=\color{amarillo},
+    identifierstyle=\color{black},
+    basicstyle=\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2,
+}
+
+\renewcommand{\lstlistingname}{Código}
+
+\title{Tarea No. 11. Singleton}
+\author{Barrera Pérez Carlos Tonatihu \\ Profesor: José Asunción Enríquez 
+Zárate \\ Web Application Development \\ Grupo: 3CM9 }
+
+\begin{document}
+
+\maketitle
+\newpage
+\tableofcontents
+\newpage
+
+\section{Introducción}
+El patrón singleton es un patrón de diseño que restringe las instancias de una 
+clase a un objeto. Existen diferentes formas de implementarlo, para esto es 
+necesario tener conocimiento sobre variables de clase estáticas y modificadores 
+de acceso.
+
+\section{Desarrollo}
+En programación orientada a objetos una clase singleton es una clase que tiene 
+solo un objeto a la vez. Después de la primera inicialización si se intenta 
+inicializar de nuevo, la nueva variable también apuntara a la primera instancia 
+creada. Así que cualquier modificación que se haga a cualquier variable dentro 
+de la clase a través de la instancia, afectara la variable de la instancia 
+única.
+
+Para diseñar una clase singleton es necesario:
+\begin{itemize}
+ \item Hacer el constructor privado.
+ \item Escribir un método estático que retorne el tipo de objeto de la clase 
+singleton. Aquí se aplica el concepto de inicialización perezosa.
+\end{itemize}
+
+\subsection{Implementación clásica}
+Esta es la implementación más conocida, solo se tiene una instancia estatica 
+de la clase cuando se crea, sin embargo, presenta el grave problema de que no 
+es seguro en hilos. Ya que de existir dos o más hilos se podrian crear dos 
+objetos del singleton.
+
+\begin{lstlisting}[language=Java,style=customJava,basicstyle=\fontfamily{cmss}
+\small]
+class Singleton { 
+    private static Singleton obj; 
+ 
+    /*
+    * Constructor privado para forzar a utilizar el metodo
+    * getInstance() para crear el objeto Singleton
+    */
+    private Singleton() {} 
+  
+    public static Singleton getInstance() { 
+        if (obj==null) 
+            obj = new Singleton(); 
+        return obj; 
+    } 
+}
+\end{lstlisting}
+
+\subsection{Implementación de hilo sincronizado}
+Esta implementación es segura ya que se utiliza el modificador synchronized, 
+por lo que solo un hilo puede ejecutar el método a la vez. La desventaja es que 
+esta implementación es bastante costosa en cuanto al desempeño; pero si este no 
+es un problema es una buena solución.
+
+\begin{lstlisting}[language=Java,style=customJava,basicstyle=\fontfamily{cmss}
+\small]
+class Singleton { 
+    private static Singleton obj; 
+  
+    private Singleton() {} 
+  
+    // Solo un hilo puede ejecutar este metodo a la vez
+    public static synchronized Singleton getInstance() { 
+        if (obj==null) 
+            obj = new Singleton(); 
+        return obj; 
+    } 
+}
+\end{lstlisting}
+
+\subsection{Inicialización impaciente}
+En esta opción, se inicializa la variable al cargar la clase, la JVM ejecuta el 
+inicializador estático y por lo tanto es seguro en hilos. Se usa este método 
+cuando la clase singleton es ligera y es usado a lo largo de la ejecución del 
+programa.
+
+\begin{lstlisting}[language=Java,style=customJava,basicstyle=\fontfamily{cmss}
+\small]
+class Singleton { 
+    private static Singleton obj = new Singleton(); 
+  
+    private Singleton() {} 
+  
+    public static Singleton getInstance() { 
+        return obj; 
+    } 
+} 
+
+\end{lstlisting}
+
+\subsection{Double checked locking}
+Una vez qu un objeto es creado, la sincronización deja de ser útil debido a que 
+ahora el objeto no sera nulo y cualquier secuencia de operaciones conducirá a 
+resultados consistentes.
+
+Por lo que solo tendremos bloqueo en el método getInstance() una sola vez, 
+cuando el objeto es nulo. En esta forma solo se sincroniza una sola vez.
+
+Por ultimo, el objeto se declara volatil, lo cual asegura que múltiples hilos 
+brinden la variable objeto correctamente cuando es inicializado.
+\begin{lstlisting}[language=Java,style=customJava,basicstyle=\fontfamily{cmss}
+\small]
+class Singleton { 
+    private volatile static Singleton obj; 
+  
+    private Singleton() {} 
+  
+    public static Singleton getInstance() { 
+        if (obj == null) { 
+            // Para hacerlo el hilo seguro
+            synchronized (Singleton.class) { 
+                /*
+                * Se vuelve a checar ya que varios hilos
+                * pueden alcanzar el paso anterior
+                */
+                if (obj==null) 
+                    obj = new Singleton(); 
+            } 
+        } 
+        return obj; 
+    } 
+} 
+
+\end{lstlisting}
+
+\section{Conclusiones}
+Es conocer los requerimientos de la aplicación que se este desarrollando es 
+importante, ya que como se muestra en esta tarea existen diversas formas de 
+implementar este patrón, así resulta bastante útil el saber cual es el que más 
+se ajusta a nuestras necesidades.
+
+\end{document}
