@@ -32,7 +32,7 @@
                                     <thead>
                                     <tr>
                                         <th colspan="3"></th>
-                                        <th cospan="" class="text-center">Acciones</th>
+                                        <th colspan="2" class="text-center">Acciones</th>
                                     </tr>
                                     <tr>
                                         <th>Id</th>
@@ -45,10 +45,10 @@
                                     <tbody>
                                     <c:forEach items="${categorias}" var="categoria">
                                         <tr>
-                                            <td><c:out value="${categoria.id}"></c:out></td>
-                                            <td><c:out value="${categoria.nombre}"></c:out></td>
+                                            <td><c:out value="${categoria.id}"/></td>
+                                            <td><c:out value="${categoria.nombre}"/></td>
                                             <td><c:out
-                                                    value="${categoria.descripcion}"></c:out></td>
+                                                    value="${categoria.descripcion}"/></td>
                                             <td>
                                                 <a href="?accion=editar&id=${categoria.id}">
                                                     <i class="fa fa-edit"

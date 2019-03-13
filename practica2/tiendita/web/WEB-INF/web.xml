@@ -19,9 +19,19 @@
         <servlet-name>HomeServlet</servlet-name>
         <url-pattern>/home</url-pattern>
     </servlet-mapping>
+
     <session-config>
         <session-timeout>
             30
         </session-timeout>
     </session-config>
+
+    <filter>
+        <filter-name>LoginFilter</filter-name>
+        <filter-class>controller.LoginFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>LoginFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
 </web-app>

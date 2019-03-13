@@ -14,4 +14,6 @@ public interface CategoriaDao {
     List<Categoria> readAll() throws SQLException;
     Categoria read(Categoria c) throws SQLException;
     void delete(Categoria c) throws SQLException;
+    void create(Categoria c) throws SQLException;
+    public void update(Categoria c) throws SQLException;
 }

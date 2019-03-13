@@ -19,24 +19,29 @@ import java.util.logging.Logger;
 @WebServlet(name = "CategoriasServlet")
 public class CategoriasServlet extends HttpServlet {
 
-    private void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    private void processRequest(HttpServletRequest request,
+            HttpServletResponse response) throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
         String accion = request.getParameter("accion");
         switch (accion) {
             case "ver":
                 listarCategorias(request, response);
                 break;
-            case "nuevaCategoria":
+            case "agregar":
                 crearCategoria(request, response);
                 break;
-            case "eliminarCategoria":
+            case "eliminar":
                 eliminarCategoria(request, response);
                 break;
             case "guardar":
                 almacenarCategoria(request, response);
                 break;
+            case "editar":
+                editarCategoria(request, response);
+                break;
         }
     }
+
 
     protected void doPost(HttpServletRequest request,
             HttpServletResponse response) throws ServletException, IOException {
@@ -46,6 +51,21 @@ public class CategoriasServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request,
             HttpServletResponse response) throws ServletException, IOException {
         processRequest(request, response);
+    }
+
+    private void editarCategoria(HttpServletRequest request,
+            HttpServletResponse response) throws ServletException, IOException {
+        Categoria c = new Categoria();
+        CategoriaDao d = new CategoriaDaoImpl();
+        c.setId(Integer.parseInt(request.getParameter("id")));
+        try {
+            c = d.read(c);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        request.setAttribute("categoria", c);
+        request.setAttribute("PAGINA", Paginas.VER_CATEGORIAS);
+        request.getRequestDispatcher("formCategoria.jsp").forward(request, response);
     }
 
     private void listarCategorias(HttpServletRequest request, HttpServletResponse response) {
@@ -60,8 +80,10 @@ public class CategoriasServlet extends HttpServlet {
         }
     }
 
-    private void crearCategoria(HttpServletRequest request, HttpServletResponse response) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    private void crearCategoria(HttpServletRequest request,
+            HttpServletResponse response) throws ServletException, IOException {
+        request.setAttribute("PAGINA", Paginas.AGREGAR_CATEGORIA);
+        request.getRequestDispatcher("formCategoria.jsp").forward(request, response);
     }
 
     private void eliminarCategoria(HttpServletRequest request, HttpServletResponse response) {
@@ -79,7 +101,24 @@ public class CategoriasServlet extends HttpServlet {
         }
     }
 
-    private void almacenarCategoria(HttpServletRequest request, HttpServletResponse response) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    private void almacenarCategoria(HttpServletRequest request, HttpServletResponse response)
+            throws IOException {
+        Categoria c = new Categoria();
+        CategoriaDao dao = new CategoriaDaoImpl();
+        try {
+            if (request.getParameter("id") == null || request.getParameter("id").isEmpty()) {
+                c.setNombre(request.getParameter("nombre"));
+                c.setDescripcion(request.getParameter("descripcion"));
+                dao.create(c);
+            } else {
+                c.setId(Integer.parseInt(request.getParameter("id")));
+                c.setNombre(request.getParameter("nombre"));
+                c.setDescripcion(request.getParameter("descripcion"));
+                dao.update(c);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        listarCategorias(request, response);
     }
 }
