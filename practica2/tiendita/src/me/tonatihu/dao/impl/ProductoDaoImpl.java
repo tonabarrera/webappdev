@@ -1,4 +1,4 @@
-package dao.impl;
+package me.tonatihu.dao.impl;
 
 /**
  * @author tonatihu

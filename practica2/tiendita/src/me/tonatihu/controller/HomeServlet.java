@@ -1,6 +1,6 @@
-package controller;
+package me.tonatihu.controller;
 
-import util.Paginas;
+import me.tonatihu.util.Paginas;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

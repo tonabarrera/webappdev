@@ -44,7 +44,7 @@
                                         <div class="col-sm-10">
                                             <input type="text"
                                                    name="id" required
-                                                   value="${categoria.id}"
+                                                   value="${categoria.categoriaId}"
                                                    class="form-control"
                                                    placeholder="Id Categoria" readonly/>
                                         </div>

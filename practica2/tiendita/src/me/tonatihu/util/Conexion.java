@@ -1,4 +1,4 @@
-package util;
+package me.tonatihu.util;
 
 import java.sql.*;
 

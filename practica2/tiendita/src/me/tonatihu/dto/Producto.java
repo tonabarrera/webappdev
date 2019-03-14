@@ -1,4 +1,4 @@
-package dto;
+package me.tonatihu.dto;
 
 /**
  * @author tonatihu

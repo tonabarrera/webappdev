@@ -45,18 +45,18 @@
                                     <tbody>
                                     <c:forEach items="${categorias}" var="categoria">
                                         <tr>
-                                            <td><c:out value="${categoria.id}"/></td>
+                                            <td><c:out value="${categoria.categoriaId}"/></td>
                                             <td><c:out value="${categoria.nombre}"/></td>
                                             <td><c:out
                                                     value="${categoria.descripcion}"/></td>
                                             <td>
-                                                <a href="?accion=editar&id=${categoria.id}">
+                                                <a href="?accion=editar&id=${categoria.categoriaId}">
                                                     <i class="fa fa-edit"
                                                        style="font-size: 2rem"></i>
                                                 </a>
                                             </td>
                                             <td>
-                                                <a href="?accion=eliminar&id=${categoria.id}">
+                                                <a href="?accion=eliminar&id=${categoria.categoriaId}">
                                                     <i class="fa fa-trash"
                                                        style="font-size: 2rem"></i>
                                                 </a>

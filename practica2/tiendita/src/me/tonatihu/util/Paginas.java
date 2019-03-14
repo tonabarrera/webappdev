@@ -1,4 +1,4 @@
-package util;
+package me.tonatihu.util;
 
 /**
  * @author tonatihu

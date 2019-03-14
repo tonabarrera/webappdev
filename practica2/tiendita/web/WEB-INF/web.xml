@@ -5,11 +5,11 @@
          version="4.0">
     <servlet>
         <servlet-name>CategoriasServlet</servlet-name>
-        <servlet-class>controller.CategoriasServlet</servlet-class>
+        <servlet-class>me.tonatihu.controller.CategoriasServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>HomeServlet</servlet-name>
-        <servlet-class>controller.HomeServlet</servlet-class>
+        <servlet-class>me.tonatihu.controller.HomeServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>CategoriasServlet</servlet-name>
@@ -28,7 +28,7 @@
 
     <filter>
         <filter-name>LoginFilter</filter-name>
-        <filter-class>controller.LoginFilter</filter-class>
+        <filter-class>me.tonatihu.interceptor.LoginFilter</filter-class>
     </filter>
     <filter-mapping>
         <filter-name>LoginFilter</filter-name>

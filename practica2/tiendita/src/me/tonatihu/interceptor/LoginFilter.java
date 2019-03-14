@@ -1,4 +1,4 @@
-package controller;
+package me.tonatihu.interceptor;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
