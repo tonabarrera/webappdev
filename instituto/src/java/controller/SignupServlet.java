@@ -56,7 +56,7 @@ public class SignupServlet extends HttpServlet {
                     a.setBoleta(boleta);
                     a.setEmail(email);
                     a.setNombre(nombre);
-                    a.setType(tipo);
+                    a.setTipo(tipo);
                     a.setUsername(username);
                     a.setPassword(contra);
                     userDao.create(a);
@@ -68,7 +68,7 @@ public class SignupServlet extends HttpServlet {
                     p.setNumeroProfesor(boleta);
                     p.setEmail(email);
                     p.setNombre(nombre);
-                    p.setType(tipo);
+                    p.setTipo(tipo);
                     p.setUsername(username);
                     p.setPassword(contra);
                     userDao.create(p);

@@ -77,11 +77,11 @@ public class Usuario {
         this.password = password;
     }
 
-    public int getType() {
+    public int getTipo() {
         return tipo;
     }
 
-    public void setType(int type) {
+    public void setTipo(int type) {
         this.tipo = type;
     }
     

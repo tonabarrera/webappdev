@@ -15,6 +15,7 @@ import dao.impl.ProfesorDaoImpl;
 import dto.Alumno;
 import dto.Carrera;
 import dto.Profesor;
+import dto.Usuario;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
@@ -47,14 +48,14 @@ public class PerfilServlet extends HttpServlet {
     throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
         HttpSession session = request.getSession();
-        String username = session.getAttribute("USERNAME").toString();
-        int tipo = (int) session.getAttribute("TIPO");
+        Usuario usuario = (Usuario) session.getAttribute("USUARIO_SESSION");
+        int tipo = usuario.getTipo();
         request.setAttribute("PAGINA", Paginas.PERFIL);
         if (tipo == 1) {
             try {
                 CarreraDao dao = new CarreraDaoImpl();
                 AlumnoDao daoAlumno = new AlumnoDaoImpl();
-                Alumno a = daoAlumno.findByUsername(username);
+                Alumno a = daoAlumno.findByUsername(usuario.getUsername());
                 List<Carrera> carreras = dao.readAll();
                 request.setAttribute("carreras", carreras);
                 request.setAttribute("alumno", a);
@@ -65,7 +66,7 @@ public class PerfilServlet extends HttpServlet {
         } else {
              try {
                 ProfesorDao profesorDao = new ProfesorDaoImpl();
-                Profesor profesor = profesorDao.findByUsername(username);
+                Profesor profesor = profesorDao.findByUsername(usuario.getUsername());
                 request.setAttribute("profesor", profesor);
                 request.getRequestDispatcher("perfilProfesor.jsp").forward(request, response);
             } catch (SQLException ex) {

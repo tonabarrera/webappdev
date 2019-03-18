@@ -19,26 +19,22 @@ import utils.Conexion;
 
 /**
  *
- * @author tonatihus Created on 09-Mar-2019
+ * @author tonatihu Created on 09-Mar-2019
  */
 public class UsuarioDaoImpl implements UsuarioDao {
 
     private static final String SP_EXIST_BY_USERNAME_PASSWORD = "{call sp_exists_by_username_password(?, ?)}";
     private static final String SP_CREATE = "{call sp_crear_usuario(?, ?, ?, ?, ?, ?, ?, ?)}";
     private static final String SQL_FIND_BY_USERNAME = "SELECT * FROM usuarios WHERE username=?;";
-     private static final String SQL_FIND_BY_EMAIl = "SELECT * FROM usuarios WHERE email=?;";
+    private static final String SQL_FIND_BY_EMAIL = "SELECT * FROM usuarios WHERE email=?;";
     private static final String SQL_DELETE = "DELETE FROM usuarios where usuario_id=?;";
-    private final Conexion conexion;
-
-    public UsuarioDaoImpl() {
-        conexion = new Conexion();
-    }
+    private Conexion conexion;
 
     @Override
     public boolean existsByUsernameAndPassord(String username, String password) throws SQLException {
+        conexion = Conexion.getInstance();
         ResultSet rs = null;
         CallableStatement cs = null;
-        conexion.conectar();
         try {
             cs = conexion.createCallableStatement(SP_EXIST_BY_USERNAME_PASSWORD);
             cs.setString(1, username);
@@ -61,8 +57,8 @@ public class UsuarioDaoImpl implements UsuarioDao {
 
     @Override
     public void create(Alumno student) throws SQLException {
+        conexion = Conexion.getInstance();
         CallableStatement cs = null;
-        conexion.conectar();
         try {
             cs = conexion.createCallableStatement(SP_CREATE);
             cs.setString(1, student.getNombre());
@@ -71,7 +67,7 @@ public class UsuarioDaoImpl implements UsuarioDao {
             cs.setString(4, student.getEmail());
             cs.setString(5, student.getUsername());
             cs.setString(6, student.getPassword());
-            cs.setInt(7, student.getType());
+            cs.setInt(7, student.getTipo());
             cs.setString(8, student.getBoleta());
             cs.executeUpdate();
         } finally {
@@ -83,8 +79,8 @@ public class UsuarioDaoImpl implements UsuarioDao {
 
     @Override
     public void create(Profesor professor) throws SQLException {
+        conexion = Conexion.getInstance();
         CallableStatement cs = null;
-        conexion.conectar();
         try {
             cs = conexion.createCallableStatement(SP_CREATE);
             cs.setString(1, professor.getNombre());
@@ -93,7 +89,7 @@ public class UsuarioDaoImpl implements UsuarioDao {
             cs.setString(4, professor.getEmail());
             cs.setString(5, professor.getUsername());
             cs.setString(6, professor.getPassword());
-            cs.setInt(7, professor.getType());
+            cs.setInt(7, professor.getTipo());
             cs.setString(8, professor.getNumeroProfesor());
             cs.executeUpdate();
         } finally {
@@ -105,13 +101,12 @@ public class UsuarioDaoImpl implements UsuarioDao {
 
     @Override
     public Usuario findByUsername(String username) throws SQLException {
+        conexion = Conexion.getInstance();
         PreparedStatement ps = null;
         ResultSet rs = null;
-        conexion.conectar();
         try {
             ps = conexion.createPreparedStatement(SQL_FIND_BY_USERNAME);
             ps.setString(1, username);
-            
             rs = ps.executeQuery();
             List<Usuario> resultados = obtenerResultados(rs);
             if (resultados.size() > 0) {
@@ -120,10 +115,8 @@ public class UsuarioDaoImpl implements UsuarioDao {
                 return null;
             }
         } finally {
-            if (rs != null)
-                conexion.cerrar(rs);
-            if (ps != null)
-                conexion.cerrar(ps);
+            conexion.cerrar(rs);
+            conexion.cerrar(ps);
             conexion.cerrar();
         }
     }
@@ -139,7 +132,7 @@ public class UsuarioDaoImpl implements UsuarioDao {
             a.setEmail(rs.getString("email"));
             a.setUsername(rs.getString("username"));
             a.setPassword(rs.getString("password"));
-            a.setType(rs.getInt("usuario_tipo"));
+            a.setTipo(rs.getInt("usuario_tipo"));
             resultados.add(a);
         }
         return resultados;
@@ -147,26 +140,25 @@ public class UsuarioDaoImpl implements UsuarioDao {
 
     @Override
     public void delete(Usuario usuario) throws SQLException {
+        conexion = Conexion.getInstance();
         PreparedStatement ps = null;
-        conexion.conectar();
         try {
             ps = conexion.createPreparedStatement(SQL_DELETE);
             ps.setInt(1, usuario.getId());
             ps.executeUpdate();
         } finally {
-            if (ps != null)
-                conexion.cerrar(ps);
+            conexion.cerrar(ps);
             conexion.cerrar();
         }
     }
 
     @Override
     public Usuario findByEmail(String email) throws SQLException {
+        conexion = Conexion.getInstance();
         PreparedStatement ps = null;
         ResultSet rs = null;
-        conexion.conectar();
         try {
-            ps = conexion.createPreparedStatement(SQL_FIND_BY_EMAIl);
+            ps = conexion.createPreparedStatement(SQL_FIND_BY_EMAIL);
             ps.setString(1, email);
             
             rs = ps.executeQuery();
@@ -177,10 +169,8 @@ public class UsuarioDaoImpl implements UsuarioDao {
                 return null;
             }
         } finally {
-            if (rs != null)
-                conexion.cerrar(rs);
-            if (ps != null)
-                conexion.cerrar(ps);
+            conexion.cerrar(rs);
+            conexion.cerrar(ps);
             conexion.cerrar();
         }
     }

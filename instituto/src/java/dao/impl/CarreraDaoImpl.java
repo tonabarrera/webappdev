@@ -24,17 +24,13 @@ public class CarreraDaoImpl implements CarreraDao{
     private static final String SQL_SELECT_ALL = "SELECT * FROM carreras";
     private static final String SQL_DELETE = "DELETE FROM carreras where carrera_id=?;";
     private static final String SQL_SELECT = "SELECT * FROM carreras where carrera_id=?";
-    private final Conexion conexion;
-
-    public CarreraDaoImpl() {
-        conexion = new Conexion();
-    }
+    private Conexion conexion;
 
     @Override
     public List<Carrera> readAll() throws SQLException {
         PreparedStatement ps = null;
         ResultSet rs = null;
-        conexion.conectar();
+        conexion = Conexion.getInstance();
         try {
             ps = conexion.createPreparedStatement(SQL_SELECT_ALL);
             rs = ps.executeQuery();
@@ -69,7 +65,7 @@ public class CarreraDaoImpl implements CarreraDao{
     @Override
     public void delete(Carrera carrera) throws SQLException {
         PreparedStatement ps = null;
-        conexion.conectar();
+        conexion = Conexion.getInstance();
         try {
             ps = conexion.createPreparedStatement(SQL_DELETE);
             ps.setInt(1, carrera.getId());
@@ -85,7 +81,7 @@ public class CarreraDaoImpl implements CarreraDao{
     public Carrera read(Carrera c) throws SQLException  {
        PreparedStatement ps = null;
        ResultSet rs = null;
-       conexion.conectar();
+       conexion = Conexion.getInstance();
        try {
            ps = conexion.createPreparedStatement(SQL_SELECT);
            ps.setInt(1, c.getId());

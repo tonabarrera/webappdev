@@ -26,18 +26,13 @@ public class AlumnoDaoImpl implements AlumnoDao{
     private static final String FIND_BY_USERNAME = "{CALL sp_buscar_alumno_username(?)}";
     private static final String SP_SELECT_ALL = "{CALL sp_buscar_alumnos()}";
     private static final String SP_GET_COUNT = "{CALL sp_get_data}";
-
-    private final Conexion conexion;
-
-    public AlumnoDaoImpl() {
-        conexion = new Conexion();
-    }
+    private Conexion conexion;
 
     @Override
     public Alumno findByUsername(String username) throws SQLException{
+        conexion = Conexion.getInstance();
         ResultSet rs = null;
         CallableStatement cs = null;
-        conexion.conectar();
         Alumno a = new Alumno();
         try {
             cs = conexion.createCallableStatement(FIND_BY_USERNAME);
@@ -66,9 +61,9 @@ public class AlumnoDaoImpl implements AlumnoDao{
 
     @Override
     public List<Alumno> readAll() throws SQLException {
+        conexion = Conexion.getInstance();
         ResultSet rs = null;
         CallableStatement cs = null;
-        conexion.conectar();
         try {
             cs = conexion.createCallableStatement(SP_SELECT_ALL);
             rs = cs.executeQuery();
@@ -98,7 +93,7 @@ public class AlumnoDaoImpl implements AlumnoDao{
             a.setUsername(rs.getString("username"));
             a.setPassword(rs.getString("password"));
             a.setBoleta(rs.getString("boleta"));
-            a.setType(rs.getInt("usuario_tipo"));
+            a.setTipo(rs.getInt("usuario_tipo"));
             a.setId(rs.getInt("usuario_id"));
             Carrera c = new Carrera();
             c.setId(rs.getInt("carrera_id"));
@@ -110,10 +105,10 @@ public class AlumnoDaoImpl implements AlumnoDao{
     
     @Override
     public List<Datos> getData() throws SQLException {
+        conexion = Conexion.getInstance();
         ResultSet rs = null;
         CallableStatement cs = null;
-        List<Datos> lista = new ArrayList<Datos>();
-        conexion.conectar();
+        List<Datos> lista = new ArrayList<>();
         try {
             cs = conexion.createCallableStatement(SP_GET_COUNT);
             rs = cs.executeQuery();

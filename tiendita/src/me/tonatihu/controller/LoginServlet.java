@@ -31,7 +31,7 @@ public class LoginServlet extends HttpServlet {
             throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
         String accion = request.getParameter("logout");
-        if (accion != null && accion.equals("logout"))
+        if (accion != null)
             logout(request, response);
         else {
             if (request.getMethod().equals("POST"))
@@ -62,7 +62,7 @@ public class LoginServlet extends HttpServlet {
 
     private void logout(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = request.getSession();
+        HttpSession session = request.getSession(false);
         session.invalidate();
         request.getRequestDispatcher("login.jsp").forward(request, response);
     }

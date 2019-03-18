@@ -12,6 +12,8 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -19,19 +21,33 @@ import java.sql.SQLException;
  * Created on 09-Mar-2019
  */
 public class Conexion {
-private Connection connection = null;
+    private volatile static Conexion instance;
+    private Connection connection = null;
+    private static final Logger LOGGER = Logger.getLogger(Conexion.class.getName());
 
-    public void conectar() {
+    private Conexion() {
         String user = "root";
         String pwd = "respuesta42";
-        String url = "jdbc:mysql://localhost:3306/instituto";
+        String dbName = "instituto";
+        String url = "jdbc:mysql://localhost:3306/" + dbName;
         String mySqlDriver = "com.mysql.jdbc.Driver";
         try {
             Class.forName(mySqlDriver);
-            connection = DriverManager.getConnection(url, user, pwd);
+            this.connection = DriverManager.getConnection(url, user, pwd);
+            LOGGER.log(Level.INFO, "Abriendo Conexion");
         } catch (ClassNotFoundException | SQLException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, "Error en conectar", e);
         }
+    }
+    
+    public static Conexion getInstance() throws SQLException {
+        if (instance == null || instance.connection.isClosed()) {
+            synchronized (Conexion.class) {
+                if (instance == null || instance.connection.isClosed())
+                    instance = new Conexion();
+            } 
+        }
+        return instance;
     }
 
     public PreparedStatement createPreparedStatement(String sqlQuery) throws SQLException {
@@ -46,7 +62,9 @@ private Connection connection = null;
         if (ps != null) {
             try {
                 ps.close();
-            } catch (SQLException ignored) {}
+            } catch (SQLException ignored) {
+                LOGGER.log(Level.SEVERE, "Error en cerrar PreparedStatement", ignored);
+            }
         }
     }
     
@@ -54,15 +72,20 @@ private Connection connection = null;
         if (cs != null) {
             try {
                 cs.close();
-            } catch (SQLException ignored) {}
+            } catch (SQLException ignored) {
+                LOGGER.log(Level.SEVERE, "Error en cerrar CallableStatement", ignored);
+            }
         }
     }
-
+    
     public void cerrar() {
         if (connection != null) {
             try {
                 connection.close();
-            } catch (SQLException ignored) {}
+                LOGGER.log(Level.INFO, "Cerrando conexion");
+            } catch (SQLException ignored) {
+                LOGGER.log(Level.SEVERE, "Error en cerrar", ignored);
+            }
         }
     }
 
@@ -70,7 +93,9 @@ private Connection connection = null;
         if (rs != null) {
             try {
                 rs.close();
-            } catch (SQLException ignored) {}
+            } catch (SQLException ignored) {
+                LOGGER.log(Level.SEVERE, "Error en cerrar ResultSet", ignored);
+            }
         }
     }
 }

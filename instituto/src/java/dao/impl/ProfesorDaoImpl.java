@@ -23,17 +23,13 @@ import utils.Conexion;
 public class ProfesorDaoImpl implements ProfesorDao{
     private static final String FIND_BY_USERNAME = "{CALL sp_buscar_profesor_username(?)}";
     private static final String SP_FIND_PROFESSOR = "{CALL sp_buscar_profesor(?)}";
-    private final Conexion conexion;
-
-    public ProfesorDaoImpl() {
-        conexion = new Conexion();
-    }
+    private Conexion conexion;
 
     @Override
     public Profesor findByUsername(String username) throws SQLException {
+        conexion = Conexion.getInstance();
         ResultSet rs = null;
         CallableStatement cs = null;
-        conexion.conectar();
         Profesor a = new Profesor();
         try {
             cs = conexion.createCallableStatement(FIND_BY_USERNAME);
@@ -41,7 +37,7 @@ public class ProfesorDaoImpl implements ProfesorDao{
             rs = cs.executeQuery();
             while (rs.next()) {
                 a.setId(rs.getInt("usuario_id"));
-                a.setType(rs.getInt("usuario_tipo"));
+                a.setTipo(rs.getInt("usuario_tipo"));
                 a.setNombre(rs.getString("nombre"));
                 a.setApPaterno(rs.getString("ap_paterno"));
                 a.setApMaterno(rs.getString("ap_materno"));
@@ -62,9 +58,9 @@ public class ProfesorDaoImpl implements ProfesorDao{
 
     @Override
     public Profesor read(Profesor p) throws SQLException {
+        conexion = Conexion.getInstance();
         ResultSet rs = null;
         CallableStatement cs = null;
-        conexion.conectar();
         try {
             cs = conexion.createCallableStatement(SP_FIND_PROFESSOR);
             cs.setString(1, p.getNumeroProfesor());
@@ -96,7 +92,7 @@ public class ProfesorDaoImpl implements ProfesorDao{
             a.setUsername(rs.getString("username"));
             a.setPassword(rs.getString("password"));
             a.setNumeroProfesor(rs.getString("profesor_num"));
-            a.setType(rs.getInt("usuario_tipo"));
+            a.setTipo(rs.getInt("usuario_tipo"));
             resultados.add(a);
         }
         return resultados;

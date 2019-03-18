@@ -9,10 +9,10 @@
                     <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                         <span class="clear">
                             <span class="block m-t-xs">
-                                <strong class="font-bold">${NOMBRE_COMPLETO}</strong>
+                                Username: <strong class="font-bold">${USUARIO_SESSION.username}</strong>
                             </span>
                             <span class="text-muted text-xs block">
-                                <c:out value="${USERNAME}"/> (<c:out value="${TIPO_VALOR}"/>)
+                                <c:out value="${USUARIO_SESSION.nombreCompleto}"/> (<c:out value="${USUARIO_SESSION.tipoValor}"/>)
                             </span>
                         </span>
                     </a>

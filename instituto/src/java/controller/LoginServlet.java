@@ -38,30 +38,15 @@ public class LoginServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
-        if (username != null && password != null) {
-            try {
-                UsuarioDao dao = new UsuarioDaoImpl();
-                if (dao.existsByUsernameAndPassord(username, password)) {
-                    HttpSession session = request.getSession();
-                    Usuario u = dao.findByUsername(username);
-                    session.setAttribute("USERNAME", username);
-                    session.setAttribute("TIPO", u.getType());
-                    session.setAttribute("TIPO_VALOR", u.getTipoValor());
-                    session.setAttribute("NOMBRE_COMPLETO", u.getNombreCompleto());
-                    response.sendRedirect("home");
-                    return;
-                }
-            } catch (SQLException ex) {
-                Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);
-            }
+        String accion = request.getParameter("logout");
+        if (accion != null)
+            logout(request, response);
+        else {
+            if (request.getMethod().equals("POST"))
+                login(request, response);
+            else
+                request.getRequestDispatcher("login.jsp").forward(request, response);
         }
-        if (request.getParameter("logout") != null){
-            request.getSession().invalidate();
-
-        }
-        request.getRequestDispatcher("login.jsp").forward(request, response);
     } 
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -100,4 +85,28 @@ public class LoginServlet extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
+    private void logout(HttpServletRequest request, HttpServletResponse response) 
+            throws ServletException, ServletException, IOException {
+        HttpSession session = request.getSession(false);
+        session.invalidate();
+        request.getRequestDispatcher("login.jsp").forward(request, response);
+    }
+
+    private void login(HttpServletRequest request, HttpServletResponse response) 
+            throws IOException, ServletException {
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+        try {
+            UsuarioDao dao = new UsuarioDaoImpl();
+            if (dao.existsByUsernameAndPassord(username, password)) {
+                HttpSession session = request.getSession();
+                Usuario u = dao.findByUsername(username);
+                session.setAttribute("USUARIO_SESSION", u);
+                response.sendRedirect("home");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);
+            request.getRequestDispatcher("login.jsp").forward(request, response);
+        }
+    }
 }

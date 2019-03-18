@@ -27,17 +27,13 @@ public class MateriaDaoImpl implements MateriaDao{
     private static final String SQL_FIND_BY_PROFESOR = "SELECT * FROM materias WHERE profesor_num=?;";
     private static final String SQL_SELECT_ALL = "SELECT * FROM materias;";
     private static final String SQL_DELETE = "DELETE FROM materias WHERE materia_id=?;";
-    private final Conexion conexion;
-
-    public MateriaDaoImpl() {
-        conexion = new Conexion();
-    }
+    private Conexion conexion;
 
     @Override
     public List<Materia> findAllFreeSubjects() throws SQLException{
         PreparedStatement ps = null;
         ResultSet rs = null;
-        conexion.conectar();
+        conexion = Conexion.getInstance();
         try {
             ps = conexion.createPreparedStatement(SQL_FIND_FREE_SUBJECTS);
             rs = ps.executeQuery();
@@ -60,7 +56,7 @@ public class MateriaDaoImpl implements MateriaDao{
     public List<Materia> findSubjectsByProfessor(Profesor profesor) throws SQLException{
         PreparedStatement ps = null;
         ResultSet rs = null;
-        conexion.conectar();
+        conexion = Conexion.getInstance();
         try {
             ps = conexion.createPreparedStatement(SQL_FIND_BY_PROFESOR);
             ps.setString(1, profesor.getNumeroProfesor());
@@ -97,8 +93,8 @@ public class MateriaDaoImpl implements MateriaDao{
     @Override
     public List<Materia> readAll() throws SQLException{
         PreparedStatement ps = null;
+        conexion = Conexion.getInstance();
         ResultSet rs = null;
-        conexion.conectar();
         try {
             ps = conexion.createPreparedStatement(SQL_SELECT_ALL);
             rs = ps.executeQuery();
@@ -120,7 +116,7 @@ public class MateriaDaoImpl implements MateriaDao{
     @Override
     public void delete(Materia materia) throws SQLException {
         PreparedStatement ps = null;
-        conexion.conectar();
+        conexion = Conexion.getInstance();
         try {
             ps = conexion.createPreparedStatement(SQL_DELETE);
             ps.setInt(1, materia.getId());
