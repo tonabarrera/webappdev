@@ -21,9 +21,9 @@ public class UsuarioDaoImpl extends GenericDao<UsuarioEntity, String> implements
         Query query = getCurrentSession().createQuery(FIND_BY_USERNAME_AND_CONTRA);
         query.setParameter("u", username);
         query.setParameter("p", contra);
-        UsuarioEntity categoriaEntity = (UsuarioEntity) query.uniqueResult();
+        UsuarioEntity usuario = (UsuarioEntity) query.uniqueResult();
         closeCurrentSession();
-        return categoriaEntity;
+        return usuario;
     }
 
     @Override
@@ -38,7 +38,10 @@ public class UsuarioDaoImpl extends GenericDao<UsuarioEntity, String> implements
 
     @Override
     public UsuarioEntity findById(String s) {
-        return null;
+        openCurrentSession();
+        UsuarioEntity usuario = getCurrentSession().get(UsuarioEntity.class, s);
+        closeCurrentSession();
+        return usuario;
     }
 
     @Override
