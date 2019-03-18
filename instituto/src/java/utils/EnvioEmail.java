@@ -6,8 +6,8 @@
 
 package utils;
 
-import java.io.UnsupportedEncodingException;
-import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -18,7 +18,6 @@ import javax.mail.Authenticator;
 import javax.mail.BodyPart;
 import javax.mail.Message;
 import javax.mail.MessagingException;
-import javax.mail.Multipart;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Transport;
@@ -38,8 +37,8 @@ public class EnvioEmail {
     private String destinatario;
     private String mensaje;
     private Properties props;
-    private static final String username = "webappdevtona@outlook.com";
-    private static final String password = "";
+    private static final String USERNAME = "webappdevtona@outlook.com";
+    private static final String PASSWORD = "";
     private Session session;
     
     public EnvioEmail() {
@@ -51,7 +50,7 @@ public class EnvioEmail {
         session = Session.getInstance(props, new Authenticator() {
             @Override
             protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication(username, password);
+                return new PasswordAuthentication(USERNAME, PASSWORD);
             }
         });
     }
@@ -79,23 +78,43 @@ public class EnvioEmail {
     public void setMensaje(String mensaje) {
         this.mensaje = mensaje;
     }
-
-    public void enviar(String imagen) {
+    
+    public void enviar(Map<String, String> imagenes, Map<String, String> archivos) {
         try {
             Message message = new MimeMessage(session);
-            message.setFrom(new InternetAddress(username));
-            message.setRecipients(Message.RecipientType.TO,
-                    InternetAddress.parse(destinatario));
+            message.setFrom(new InternetAddress(USERNAME));
+            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(destinatario));
             message.setSubject(asunto);
-            message.setText(mensaje);
-
+            
+            MimeMultipart multipart = new MimeMultipart("related");
+            
+            BodyPart bodyPartMensaje = new MimeBodyPart();
+            bodyPartMensaje.setContent(mensaje, "text/html;charset=UTF-8");
+            multipart.addBodyPart(bodyPartMensaje);
+            
+            for (Map.Entry<String, String> entrada : imagenes.entrySet()) {
+                BodyPart bodyPartImagenes = new MimeBodyPart();
+                DataSource fds = new FileDataSource(entrada.getValue());
+                bodyPartImagenes.setDataHandler(new DataHandler(fds));
+                bodyPartImagenes.setHeader("Content-ID", "<" + entrada.getKey() + ">");
+                multipart.addBodyPart(bodyPartImagenes);
+            }
+            
+            for (Map.Entry<String, String> entrada : archivos.entrySet()) {
+                BodyPart bodyPartArchivos = new MimeBodyPart();
+                DataSource fds2 = new FileDataSource(entrada.getValue());
+                bodyPartArchivos.setDataHandler(new DataHandler(fds2));
+                bodyPartArchivos.setFileName(entrada.getKey());
+                multipart.addBodyPart(bodyPartArchivos);
+            }
+            
+            message.setContent(multipart);
+            
             Transport.send(message);
         } catch (AddressException ex) {
-            Logger.getLogger(EnvioEmail.class.getName()).log(Level.SEVERE, "AddressException", ex);
+            Logger.getLogger(EnvioEmail.class.getName()).log(Level.SEVERE, "Error AddressException", ex);
         } catch (MessagingException ex) {
-            Logger.getLogger(EnvioEmail.class.getName()).log(Level.SEVERE, "MessagingException", ex);
+            Logger.getLogger(EnvioEmail.class.getName()).log(Level.SEVERE, "Error MessagingException", ex);
         }
     }
-    
-    
 }

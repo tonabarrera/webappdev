@@ -11,6 +11,8 @@ import dao.impl.UsuarioDaoImpl;
 import dto.Usuario;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -41,16 +43,22 @@ public class RecuperarContraServlet extends HttpServlet {
         String email = request.getParameter("email");
         UsuarioDao dao = new UsuarioDaoImpl();
         String archivo = getServletConfig().getServletContext().getRealPath("/static/img/grafica.png");
+        String file = getServletConfig().getServletContext().getRealPath("/static/archivo.txt");
+        Map<String, String> imagenesMap = new HashMap<>();
+        Map<String, String> archivosMap = new HashMap<>();
+        imagenesMap.put("grafica", archivo);
+        archivosMap.put("Reporte.txt", file);
         if (email != null) {
             try {
                 EnvioEmail e = new EnvioEmail();
-                e.setAsunto("Recuperar contraseña");
+                e.setAsunto("Recuperar contraseña de Instituto");
                 e.setDestinatario(email);
                 Usuario u = dao.findByEmail(email);
                 if (u != null) {
-                    String mensaje = "Tu contraseña es: " + u.getPassword();
+                    String mensaje = "<h1>Bienvenido a Instituto</h1><br><h2>Tu contraseña es:</h2> " 
+                            + u.getPassword() + "<img src=\"cid:grafica\"/> <p>Tambien te mandamos un reporte.txt solo por los memes</p>";
                     e.setMensaje(mensaje);
-                    e.enviar(archivo);
+                    e.enviar(imagenesMap, archivosMap);
                     response.sendRedirect("login");
                     return;
                 }
