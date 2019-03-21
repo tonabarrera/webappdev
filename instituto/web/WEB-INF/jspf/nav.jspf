@@ -67,7 +67,7 @@
                 </a>
             </li>
             <li class="<c:if test="${PAGINA ==8}">active</c:if>">
-                <a href="graficas">
+                <a href="graficas?action=ver">
                     <i class="fa fa-pie-chart"></i>
                     <span class="nav-label">Graficas</span>
                 </a>

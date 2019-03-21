@@ -39,7 +39,7 @@ public class EnvioEmail {
     private Properties props;
     private static final String USERNAME = "webappdevtona@outlook.com";
     private static final String PASSWORD = "";
-    private Session session;
+    private final Session session;
     
     public EnvioEmail() {
         props = new Properties();

@@ -6,7 +6,6 @@
 package interceptor;
 
 import java.io.IOException;
-import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import javax.servlet.Filter;

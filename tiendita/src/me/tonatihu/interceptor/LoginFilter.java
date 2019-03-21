@@ -9,9 +9,13 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-//@WebFilter(filterName = "LoginFilter")
 public class LoginFilter implements Filter {
     private static final Logger LOGGER = Logger.getLogger(LoginFilter.class.getName());
+
+    private static final String[] noRequiereLogin = {
+            "/static", "/login",
+    };
+
     public void destroy() {
         LOGGER.log(Level.INFO, "Metodo destroy");
     }
@@ -31,7 +35,7 @@ public class LoginFilter implements Filter {
         if (isLoggedIn && url.equals("/tiendita/login") && logout == null) {
             LOGGER.log(Level.INFO, "Ya inicio sesion pero quiere hacerlo otra vez");
             response.sendRedirect("home");
-        }else if(isLoggedIn || url.equals("/tiendita/login")) {
+        }else if(isLoggedIn || url.equals("/tiendita/login") || loginRequerido(request)) {
             LOGGER.log(Level.INFO, "Quiere acceder a cualquier pagina o al login");
             chain.doFilter(req, resp);
         } else {
@@ -40,7 +44,16 @@ public class LoginFilter implements Filter {
         }
     }
 
-    public void init(FilterConfig config) throws ServletException {
+    private boolean loginRequerido(HttpServletRequest request) {
+        String requestURL = request.getRequestURL().toString();
+        for (String url : noRequiereLogin) {
+            if (requestURL.contains(url))
+                return true;
+        }
+        return false;
+    }
+
+    public void init(FilterConfig config) {
         LOGGER.log(Level.INFO, "Metodo  init");
     }
 

@@ -19,7 +19,7 @@
                                 <strong class="font-bold">${USUARIO_SESSION.nombreCompleto}</strong>
                             </span>
                             <span class="text-muted text-xs block">
-                                <c:out value="${USUARIO_SESSION.username}"/>
+                                Username: <c:out value="${USUARIO_SESSION.username}"/>
                             </span>
                         </span>
                     </a>

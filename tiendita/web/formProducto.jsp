@@ -107,18 +107,18 @@
                                                 required
                                                 class="form-control">
                                             <option value="" disabled
-                                                <c:if test="${producto.categoria.categoriaId == 0}">
+                                                <c:if test="${producto.categoria == null}">
                                                     selected
                                                 </c:if>>
                                                 Selecciona una Categoria
                                             </option>
                                             <c:forEach items="${categorias}" var="categoria">
-                                                <option value="${categoria.categoriaId}"
-                                                        <c:if test="${producto.categoria.categoriaId == categoria.categoriaId}">
-                                                            selected
-                                                        </c:if>>
-                                                        ${categoria.nombre}
-                                                </option>
+                                            <option value="${categoria.categoriaId}"
+                                                <c:if test="${producto.categoria.categoriaId == categoria.categoriaId}">
+                                                    selected
+                                                </c:if>>
+                                                    ${categoria.nombre}
+                                            </option>
                                             </c:forEach>
                                         </select>
                                     </div>

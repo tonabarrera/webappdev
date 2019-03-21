@@ -40,6 +40,10 @@ public class Conexion {
         }
     }
     
+    public Connection getConnection() {
+        return connection;
+    }
+    
     public static Conexion getInstance() throws SQLException {
         if (instance == null || instance.connection.isClosed()) {
             synchronized (Conexion.class) {
