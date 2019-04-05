@@ -12,9 +12,7 @@ import dto.Datos;
 import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -22,22 +20,10 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JasperCompileManager;
-import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.JasperReport;
-import net.sf.jasperreports.engine.export.JRPdfExporter;
-import net.sf.jasperreports.export.ExporterInput;
-import net.sf.jasperreports.export.OutputStreamExporterOutput;
-import net.sf.jasperreports.export.SimpleExporterInput;
-import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
-import net.sf.jasperreports.export.SimplePdfExporterConfiguration;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartUtilities;
 import org.jfree.chart.JFreeChart;
 import org.jfree.data.general.DefaultPieDataset;
-import utils.Conexion;
 import utils.Paginas;
 
 /**
@@ -128,26 +114,6 @@ public class GraficasServlet extends HttpServlet {
     }
 
     private void enviar(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        try {
-            String reporte = getServletConfig().getServletContext().getRealPath("/static/carreras.jrxml");
-            JasperReport jasperReport = JasperCompileManager.compileReport(reporte);
-            Conexion con = Conexion.getInstance();
-            Map<String, Object> parameters = new HashMap<>();
-            JasperPrint print = JasperFillManager.fillReport(jasperReport,
-                parameters, con.getConnection());
-            JRPdfExporter exporter = new JRPdfExporter();
-            ExporterInput exporterInput = new SimpleExporterInput(print);
-            exporter.setExporterInput(exporterInput);
-            String salida = getServletConfig().getServletContext().getRealPath("/static/reporte.pdf") ;
-             OutputStreamExporterOutput exporterOutput = new SimpleOutputStreamExporterOutput(
-                salida);
-            exporter.setExporterOutput(exporterOutput);
-            SimplePdfExporterConfiguration configuration = new SimplePdfExporterConfiguration();
-            exporter.setConfiguration(configuration);
-            exporter.exportReport();
-        } catch (JRException | SQLException ex) {
-            Logger.getLogger(GraficasServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }
         response.sendRedirect("graficas?accion=ver");
     }
 }

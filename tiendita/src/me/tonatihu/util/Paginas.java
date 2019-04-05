@@ -12,4 +12,5 @@ public class Paginas {
     public static final int VER_PRODUCTOS = 5;
     public static final int AGREGAR_PRODUCTO = 6;
     public static final int PERFIL = 2;
+    public static final int GRAFICAS = 7;
 }

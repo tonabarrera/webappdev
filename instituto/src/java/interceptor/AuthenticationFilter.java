@@ -23,8 +23,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author tonatihu
  */
-@WebFilter(filterName = "AuthenticationFilter", urlPatterns = {"/carreras", 
-    "/materias", "/alumnos", "/home", "/login"})
+@WebFilter(filterName = "AuthenticationFilter", urlPatterns = {"/*"})
 public class AuthenticationFilter implements Filter {
     
     private static final boolean DEBUG = true;
@@ -35,7 +34,10 @@ public class AuthenticationFilter implements Filter {
     private FilterConfig filterConfig = null;
     
     public AuthenticationFilter() {
-    }    
+    }
+    private static final String[] NO_REQUIERE_LOGIN = {
+            "/static", "/login", "/signup", "forgotPassword",
+    };
     
     private void doBeforeProcessing(ServletRequest request, ServletResponse response)
             throws IOException, ServletException {
@@ -120,7 +122,7 @@ public class AuthenticationFilter implements Filter {
             if (DEBUG)
                 log("Ya inicio sesion pero quiere hacerlo otra vez");
             response.sendRedirect("home");
-        }else if(isLoggedIn || url.equals("/instituto/login")) {
+        }else if(isLoggedIn || url.equals("/instituto/login") || loginRequerido(request)) {
             if (DEBUG)
                 log("Quiere acceder a cualquier pagina o al login");
             chain.doFilter(req, resp);
@@ -131,6 +133,15 @@ public class AuthenticationFilter implements Filter {
         }
         
         doAfterProcessing(req, resp);
+    }
+    
+    private boolean loginRequerido(HttpServletRequest request) {
+        String requestURL = request.getRequestURL().toString();
+        for (String url : NO_REQUIERE_LOGIN) {
+            if (requestURL.contains(url))
+                return true;
+        }
+        return false;
     }
 
     /**

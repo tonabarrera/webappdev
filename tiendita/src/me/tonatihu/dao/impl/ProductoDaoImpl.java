@@ -2,9 +2,11 @@ package me.tonatihu.dao.impl;
 
 import me.tonatihu.dao.GenericDao;
 import me.tonatihu.dao.ProductoDao;
+import me.tonatihu.dto.Dato;
 import me.tonatihu.entity.ProductoEntity;
 import org.hibernate.HibernateException;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -74,4 +76,37 @@ public class ProductoDaoImpl extends GenericDao<ProductoEntity, Integer>
         closeCurrentSession();
         return lista;
     }
+
+    public List<Dato> getDatos() {
+        openCurrentSession();
+        List lista = getCurrentSession()
+                .createQuery("select c.nombre as nombre, count(p.nombre) as catidad " +
+                        "from CategoriaEntity as c left join c.productos as p " +
+                        "group by c.nombre").getResultList();
+        List<Dato> datos = new ArrayList<>();
+        for (Object o : lista) {
+            Object[] filas = (Object[]) o;
+            datos.add(new Dato((String) filas[0], ((Long)filas[1]).intValue()));
+        }
+        closeCurrentSession();
+        return datos;
+    }
+    private static void printResult(Object result) {
+        if (result == null) {
+            System.out.print("NULL");
+        } else if (result instanceof Object[]) {
+            Object[] row = (Object[]) result;
+            System.out.print("[");
+            for (Object o : row) {
+                printResult(o);
+            }
+            System.out.print("]");
+        } else if (result instanceof Long || result instanceof Double
+                || result instanceof String) {
+            System.out.print("Chido: " + result.getClass().getName() + ": " + result);
+        } else {
+            System.out.print("Resultado: " + result);
+        }
+    }
+
 }

@@ -1,11 +1,9 @@
 package me.tonatihu.dao.impl;
 
-import me.tonatihu.dao.GenericDao;
-import me.tonatihu.util.HibernateUtil;
 import me.tonatihu.dao.CategoriaDao;
+import me.tonatihu.dao.GenericDao;
+import me.tonatihu.dto.Dato;
 import me.tonatihu.entity.CategoriaEntity;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
 
 import java.util.List;
 

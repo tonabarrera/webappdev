@@ -67,6 +67,12 @@
                     </li>
                 </ul>
             </li>
+            <li class="<c:if test="${PAGINA==7}">active</c:if>">
+                <a href="graficas?accion=ver">
+                    <i class="fa fa-user-circle-o"></i>
+                    <span class="nav-label">Graficas y reportes</span>
+                </a>
+            </li>
         </ul>
     </div>
 </nav>

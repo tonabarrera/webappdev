@@ -23,6 +23,10 @@
         <servlet-name>ProductosServlet</servlet-name>
         <servlet-class>me.tonatihu.controller.ProductosServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>GraficasServlet</servlet-name>
+        <servlet-class>me.tonatihu.controller.GraficasServlet</servlet-class>
+    </servlet>
     
     <servlet-mapping>
         <servlet-name>CategoriasServlet</servlet-name>
@@ -44,6 +48,10 @@
         <servlet-name>ProductosServlet</servlet-name>
         <url-pattern>/productos</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GraficasServlet</servlet-name>
+        <url-pattern>/graficas</url-pattern>
+    </servlet-mapping>
 
     <session-config>
         <session-timeout>
@@ -51,12 +59,12 @@
         </session-timeout>
     </session-config>
 
-    <filter>
-        <filter-name>LoginFilter</filter-name>
-        <filter-class>me.tonatihu.interceptor.LoginFilter</filter-class>
-    </filter>
-    <filter-mapping>
-        <filter-name>LoginFilter</filter-name>
-        <url-pattern>/*</url-pattern>
-    </filter-mapping>
+    <!--<filter>-->
+        <!--<filter-name>LoginFilter</filter-name>-->
+        <!--<filter-class>me.tonatihu.interceptor.LoginFilter</filter-class>-->
+    <!--</filter>-->
+    <!--<filter-mapping>-->
+        <!--<filter-name>LoginFilter</filter-name>-->
+        <!--<url-pattern>/*</url-pattern>-->
+    <!--</filter-mapping>-->
 </web-app>

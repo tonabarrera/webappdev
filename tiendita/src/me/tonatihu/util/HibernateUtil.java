@@ -41,6 +41,8 @@ public class HibernateUtil {
                     System.out.println("  " + o);
                 }
             }
+        } finally {
+            session.close();
         }
     }
     */

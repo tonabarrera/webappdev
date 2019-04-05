@@ -29,9 +29,9 @@ public class ProductoEntity implements Serializable {
     @Basic
     @Column(name = "existencia", nullable = false)
     private int existencia;
+
     @ManyToOne
-    @JoinColumn(name = "categoria_id", referencedColumnName = "categoria_id",
-            nullable = false)
+    @JoinColumn(name = "categoria_id", referencedColumnName = "categoria_id", nullable = false)
     private CategoriaEntity categoria;
 
 

@@ -2,7 +2,7 @@ package me.tonatihu.entity;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * @author tonatihu
@@ -22,6 +22,9 @@ public class CategoriaEntity implements Serializable {
     @Basic
     @Column(name = "descripcion", nullable = false, length = 100)
     private String descripcion;
+
+    @OneToMany(mappedBy = "categoria")
+    private List<ProductoEntity> productos = new ArrayList<>();
 
     public int getCategoriaId() {
         return categoriaId;
@@ -45,6 +48,19 @@ public class CategoriaEntity implements Serializable {
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
+    }
+
+
+    public List<ProductoEntity> getProductos() {
+        return productos;
+    }
+
+    public void setProductos(List<ProductoEntity> productos) {
+        this.productos = productos;
+    }
+
+    public void addProducto(ProductoEntity producto) {
+        this.productos.add(producto);
     }
 
     @Override
