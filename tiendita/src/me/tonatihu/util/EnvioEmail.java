@@ -21,7 +21,7 @@ public class EnvioEmail {
     private String mensaje;
     private Properties props;
     private static final String USERNAME = "webappdevtona@outlook.com";
-    private static final String PASSWORD = "jodanse90";
+    private static final String PASSWORD = "";
     private final Session session;
     private Logger LOGGER = Logger.getLogger(EnvioEmail.class.getName());
 
