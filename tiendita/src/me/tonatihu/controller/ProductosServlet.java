@@ -1,6 +1,5 @@
 package me.tonatihu.controller;
 
-import me.tonatihu.dao.ProductoDao;
 import me.tonatihu.dao.impl.ProductoDaoImpl;
 import me.tonatihu.entity.CategoriaEntity;
 import me.tonatihu.entity.ProductoEntity;
@@ -8,7 +7,6 @@ import me.tonatihu.service.CategoriaService;
 import me.tonatihu.util.Paginas;
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -103,7 +101,7 @@ public class ProductosServlet extends HttpServlet {
     private void listar(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         request.setAttribute("PAGINA", Paginas.VER_PRODUCTOS);
-        ProductoDao dao = new ProductoDaoImpl();
+        ProductoDaoImpl dao = new ProductoDaoImpl();
         List<ProductoEntity> lista = ((ProductoDaoImpl) dao).findAll();
         request.setAttribute("productos", lista);
         request.getRequestDispatcher("listaProductos.jsp").forward(request, response);

@@ -2,6 +2,7 @@ package me.tonatihu.controller;
 
 import me.tonatihu.dao.impl.ProductoDaoImpl;
 import me.tonatihu.dto.Dato;
+import me.tonatihu.util.EnvioEmail;
 import me.tonatihu.util.Paginas;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
@@ -12,7 +13,6 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.data.general.DefaultPieDataset;
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,6 +20,7 @@ import java.io.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 // 1 2 3 4 5
@@ -32,45 +33,90 @@ public class GraficasServlet extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         String accion = request.getParameter("accion");
         request.setAttribute("PAGINA", Paginas.GRAFICAS);
-        if (accion.equals("ver"))
-            ver(request, response);
-        else if (accion.equals("generar"))
-            enviar(request, response);
-        else
-            request.getRequestDispatcher("graficas.jsp").forward(request, response);
+        switch (accion) {
+            case "ver":
+                ver(request, response);
+                break;
+            case "generar":
+                generar(request, response);
+                break;
+            case "enviar":
+                enviar(request, response);
+                break;
+            default:
+                request.getRequestDispatcher("graficas.jsp").forward(request, response);
+                break;
+        }
     }
 
-    private void enviar(HttpServletRequest request, HttpServletResponse response)
-            throws IOException {
-        String rutaTemplate = getServletConfig().getServletContext()
-                .getRealPath("/static/templates");
-        String rutaGrafica = getServletConfig().getServletContext()
+    private void enviar(HttpServletRequest request, HttpServletResponse response) {
+        String template = getServletConfig().getServletContext().getRealPath("/static/templates");
+        String grafica = getServletConfig().getServletContext()
                 .getRealPath("/static/templates/grafica.png");
+        try {
+            JasperReport jasperReport = (JasperReport) JRLoader.loadObject(new File(template,
+                    "tienditaChida.jasper"));
+            Map<String, Object> datos = obtenerDatos();
+
+            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, datos,
+                    new JREmptyDataSource());
+            File archivo  = new File(template, "reporte.pdf");
+            LOGGER.log(Level.INFO, "Tamaño 1: " + archivo.length());
+            OutputStream out = new FileOutputStream(archivo);
+            LOGGER.log(Level.INFO, "Tamaño 2: " + archivo.length());
+            JasperExportManager.exportReportToPdfStream(jasperPrint, out);
+            LOGGER.log(Level.INFO, "Tamaño 3: " + archivo.length() + " " + archivo.getAbsolutePath());
+
+            EnvioEmail email = new EnvioEmail();
+            Map<String, String> imagenesMap = new HashMap<>();
+            Map<String, String> archivosMap = new HashMap<>();
+            String mensaje = "<h1>Bienvenido a Tiendita</h1><br>" +
+                    "<p>Te mandamos un reporte.pdf solo por los memes</p><img src=\"cid:grafica\"/>";
+            imagenesMap.put("grafica", grafica);
+            archivosMap.put("Reporte.pdf", archivo.getAbsolutePath());
+            email.setAsunto("A tus ordenes chichona");
+            email.setDestinatario("carlostonatihu@gmail.com");
+            email.setMensaje(mensaje);
+            email.enviar(imagenesMap, archivosMap);
+            if (archivo.delete())
+                LOGGER.log(Level.INFO, "Archivo eliminado");
+            else
+                LOGGER.log(Level.SEVERE, "Archivo no eliminado");
+        } catch (JRException | FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private Map<String, Object>  obtenerDatos() {
         ProductoDaoImpl dao = new ProductoDaoImpl();
         List<Dato> datos = dao.getDatos();
-        try {
-            JasperReport jasperReport = (JasperReport) JRLoader.loadObject(new File(rutaTemplate, "tienditaChida.jasper"));
-            JRBeanCollectionDataSource ds = new JRBeanCollectionDataSource(datos);
-            Map<String, Object> parameters = new HashMap<>();
-            parameters.put("ds", ds);
-            parameters.put("logo", rutaGrafica);
-            /*
-            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters,
-                    new JREmptyDataSource());
-            OutputStream out = new FileOutputStream(new File(rutaTemplate, "reporte.pdf"));
-            JasperExportManager.exportReportToPdfStream(jasperPrint, out);
-            */
-            byte[] byteStream = JasperRunManager.runReportToPdf(jasperReport, parameters, new JREmptyDataSource());
+        JRBeanCollectionDataSource ds = new JRBeanCollectionDataSource(datos);
+        String grafica = getServletConfig().getServletContext()
+                .getRealPath("/static/templates/grafica.png");
+        Map<String, Object> parametros = new HashMap<>();
+        parametros.put("ds", ds);
+        parametros.put("logo", grafica);
 
+        return parametros;
+    }
+
+    private void generar(HttpServletRequest request, HttpServletResponse response)
+            throws IOException {
+        try {
+            String template = getServletConfig().getServletContext().getRealPath("/static/templates");
+            JasperReport jasperReport  = (JasperReport) JRLoader.loadObject(new File(template,
+                    "tienditaChida.jasper"));
+            Map<String, Object> datos = obtenerDatos();
+            byte[] byteStream = JasperRunManager.runReportToPdf(jasperReport, datos, new JREmptyDataSource());
             OutputStream outStream = response.getOutputStream();
             response.setHeader("Content-Disposition","inline, filename=reporte.pdf");
             response.setContentType("application/pdf");
             response.setContentLength(byteStream.length);
             outStream.write(byteStream,0,byteStream.length);
-        } catch (JRException | FileNotFoundException e) {
+        } catch (JRException e) {
             e.printStackTrace();
         }
-        //response.sendRedirect("graficas?accion=ver");
     }
 
     private void ver(HttpServletRequest request, HttpServletResponse response)

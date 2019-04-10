@@ -1,0 +1,148 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{listings}
+\usepackage{xcolor}
+\definecolor{gris}{RGB}{123, 126, 132}
+\definecolor{morado}{RGB}{81, 40, 155}
+\definecolor{amarillo}{RGB}{253,151,31}
+\definecolor{magenta}{RGB}{249,38,114}
+
+\lstdefinestyle{customXML}{
+    frame=tb,
+    language=XML,
+    backgroundcolor=\color{white},   
+    commentstyle=\itshape\color{gris},
+    keywordstyle=\bfseries\color{magenta},
+    numberstyle=\color{morado},
+    stringstyle=\color{amarillo},
+    identifierstyle=\color{black},
+    basicstyle=\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2,
+}
+
+\renewcommand{\lstlistingname}{Código}
+%opening
+\title{Tarea No. 13. Archivo persistence.xml}
+\author{Barrera Pérez Carlos Tonatihu \\ Profesor: José Asunción Enríquez 
+Zárate \\ Web Application Development \\ Grupo: 3CM9 }
+
+\begin{document}
+
+\maketitle
+\newpage
+\section{Introducción}
+El archivo persistence.xml es la parte fundamental en la configuración de JPA. 
+Este archivo define una o mas unidades de persistencia en las cuales puedes 
+configurar parámetros como:
+\begin{itemize}
+ \item El nombre de la unidad de persistencia.
+ \item Cuales seran las clases de persistencia que son parte de la unidad de 
+persistencia.
+\item El como las clases son mapeadas en la base de datos.
+\item El proveedor de persistencia que sera utilizado.
+\item La fuente de datos que se utilizara para conectarse a la base de datos.
+\item Como crear y validar el esquema de la base de datos.
+\item El modo del cache de segundo nivel.
+\item Muchas configuraciones especificas de proveedor.
+\end{itemize}
+
+Es por esto que en esta tarea se exploraran los principales parámetros de 
+configuración que se tienen en este archivo.
+
+\section{Desarrollo}
+El siguiente es un ejemplo de un archivo persistence.xml con la respectiva 
+descripción de cada atributo y etiqueta.
+
+\begin{lstlisting}[language=XML,style=customXML]
+<persistence xmlns="http://java.sun.com/xml/ns/persistence"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/persistence 
+http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
+    version="2.0">
+   <persistence-unit name="manager1" transaction-type="JTA">
+      <provider>org.hibernate.ejb.HibernatePersistence</provider>
+      <jta-data-source>java:/DefaultDS</jta-data-source>
+      <mapping-file>ormap.xml</mapping-file>
+      <jar-file>MyApp.jar</jar-file>
+      <class>org.acme.Employee</class>
+      <class>org.acme.Person</class>
+      <class>org.acme.Address</class>
+      <shared-cache-mode>ENABLE_SELECTOVE</shared-cache-mode>
+      <validation-mode>CALLBACK</validation-mode>
+      <properties>
+         <property name="hibernate.dialect" 
+value="org.hibernate.dialect.HSQLDialect"/>
+         <property name="hibernate.hbm2ddl.auto" value="create-drop"/>
+      </properties>
+   </persistence-unit>
+</persistence>
+
+\end{lstlisting}
+
+\begin{itemize}
+ \item \textbf{name}. Este atributo defiene el nombre del entity manager.
+ \item \textbf{transaction-type}. Este atributo define el tipo de transacción a 
+utilizar. Ya sea JTA o RESOURCE\_LOCAL, JTA es la que se utiliza por defecto en 
+un ambiente JavaEE y RESOURCE\_LOCAL en JavaSE.
+\item \textbf{provider}. Es el nombre completo del proveedor de persistencia 
+EJB.
+\item \textbf{jta-data-source, non-jta-data-source}. Este es el nombre del JDNI 
+donde se ubica el DataSource.
+\item \textbf{mapping-file}. El elemento de clase que especifica un archivo de 
+asignación XML compatible con EJB3 que se asignara.
+\item \textbf{jar-file}. Especifica un jar a analizar. Todos los elementos de 
+este jar son agregados a la configuración de la unidad de persistencia. Este 
+elemento es principalmente utilizado in JavaEE.
+\item \textbf{exclude-unlisted-classes}. No revisa el archivo jar principal 
+para las clases anotadas. Solo las clases explicitas serán parte de la unidad 
+de persistencia.
+\item \textbf{class}. Especifica el nombre completo de la clase que se va a 
+mapear.
+\item \textbf{shared-cache-mode}. Por defecto, las entidades son elegidas para 
+el segundo nivel de caché si son anotadas con $@$Cacheable. Sin embargo, se 
+puede utilizar lo siguiente:
+    \begin{itemize}
+    \item ALL. Forzar el caché para todas las entidades.
+    \item NONE. Deshabilitado para todas las entidades.
+    \item ENABLE\_SELECTIVE (default). Habilitar caché explícitamente marcado.
+    \item DISABLE\_SELECTIVE. Habilitar caché a menos que se encuentre 
+    explícitamente marcado con $@$Cacheable(false)
+    \end{itemize}
+\item \textbf{validation-mode}. Por defecto la validación Bean está activada. 
+Cuando una entidad es creada, actualizada o borrada, es validada antes de 
+mandarla a la base de datos. El esquema de la base de datos que es generado por 
+Hibernate también refleja estas restricciones declaradas en la entidad. Se 
+pueden hacer pequeños cambios si son necesarios, tales como:
+\begin{itemize}
+ \item AUTO. Si la validación bean está presente en el classpath, CALLBACK y 
+DDL están activados.
+ \item CALLBACK. Las entidades son validadas en su creación, actualización y 
+borrado. Si no hay proveedor de validación, se lanzara una excepción a la hora 
+de la inicialización.
+ \item DDL. (No es estándar). El esquema de la base de datos son entidades que 
+se validan en la creación, actualización y borrado. Si no hay proveedor de 
+validación, se genera una excepción en el momento de la inicialización.
+ \item NONE. No se utiliza validación.
+\end{itemize}
+
+\end{itemize}
+
+\section{Conclusiones}
+Es evidente la gran cantidad de parámetros que se pueden configurar en el 
+archivo persistene.xml, sin embargo, al conocernos evita que uno se pueda 
+sentir abrumado por todas las posibles configuraciones que se pueden lograr con 
+tan solo modificar este archivo. Y al igual que con el archivo web.xml, el 
+conocer el como funciona cada parámetro nos puede ahorrar tiempo y facilitar el 
+proceso de desarrollo.
+
+\end{document}

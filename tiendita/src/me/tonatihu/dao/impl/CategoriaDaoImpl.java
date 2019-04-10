@@ -1,8 +1,6 @@
 package me.tonatihu.dao.impl;
 
-import me.tonatihu.dao.CategoriaDao;
 import me.tonatihu.dao.GenericDao;
-import me.tonatihu.dto.Dato;
 import me.tonatihu.entity.CategoriaEntity;
 
 import java.util.List;
@@ -12,7 +10,7 @@ import java.util.List;
  * Created on 3/11/19
  */
 
-public class CategoriaDaoImpl extends GenericDao<CategoriaEntity, Integer> implements CategoriaDao{
+public class CategoriaDaoImpl extends GenericDao<CategoriaEntity, Integer> {
     @Override
     public void create(CategoriaEntity entity) {
         getCurrentSession().persist(entity);

@@ -52,6 +52,9 @@
                                 <a class="btn btn-primary" href="graficas?accion=generar">
                                     Imprimir el PDF
                                 </a>
+                                <a class="btn btn-primary" href="graficas?accion=enviar">
+                                    Enviar el PDF
+                                </a>
                             </div>
                         </div>
                     </div>

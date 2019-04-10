@@ -1,7 +1,6 @@
 package me.tonatihu.dao.impl;
 
 import me.tonatihu.dao.GenericDao;
-import me.tonatihu.dao.ProductoDao;
 import me.tonatihu.dto.Dato;
 import me.tonatihu.entity.ProductoEntity;
 import org.hibernate.HibernateException;
@@ -17,8 +16,7 @@ import java.util.logging.Logger;
  * Created on 3/11/19
  */
 
-public class ProductoDaoImpl extends GenericDao<ProductoEntity, Integer>
-        implements ProductoDao<ProductoEntity, Integer> {
+public class ProductoDaoImpl extends GenericDao<ProductoEntity, Integer> {
     private static final Logger LOGGER = Logger.getLogger(ProductoDaoImpl.class.getName());
     @Override
     public void create(ProductoEntity entity) {
