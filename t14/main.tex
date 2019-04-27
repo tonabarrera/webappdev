@@ -1,0 +1,81 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{listings}
+\usepackage{xcolor}
+
+%opening
+\title{Tarea No. 14. ¿Qué es I18N y L10N?}
+\author{Barrera Pérez Carlos Tonatihu \\ Profesor: José Asunción Enríquez 
+Zárate \\ Web Application Development \\ Grupo: 3CM9 }
+
+\begin{document}
+
+\maketitle
+\newpage
+\section{Introducción}
+Los términos i18n y l10n generan bastante confusión y suelen ser mal usados. 
+Estos dos están relacionados pero no tienen el mismo significado, estos se 
+refieren a diferentes niveles de implementación y de experiencia por lo que es 
+necesario conocerlos para saber en que momento utilizar cada termino.
+\section{Desarrollo}
+i18n es el proceso de asegurarse que el software es lo suficientemente flexible 
+y listo para soportar múltiples posibles zonas, en un inicio ningún lenguaje 
+esta involucrado en este proceso, una aplicación podría nunca ser traducida 
+pero si es adecuadamente internacionalizada entonces su traducción sera 
+bastante sencilla, por lo que la internacionalización es hacer que el software 
+sea amigable con la zona.
+
+Localización por el otro lado es traducir a un lenguaje en especifico. En un 
+inicio la localización no requiere internacionalización para ser hecha, sin 
+embargo, si la aplicación no ha sido internacionalizada, entonces eso significa 
+que el proceso de localización involucrara bastantes modificaciones a bajo 
+nivel en el código.
+
+Asi que l10n sin i18n es malo, sin embargo en la actualidad esto es algo que ya 
+no es tan común.
+
+Hay varios aspectos involucrados en i18n, algunos son más comunes que otros:
+
+\begin{itemize}
+ \item Capacidad para desplegar o imprimir texto.
+ \begin{itemize}
+  \item Soportar diferentes fuentes.
+ \end{itemize}
+ \item Capacidad para manipular texto.
+ \begin{itemize}
+  \item Capacidad para manipular cadenas.
+  \item Soportar capacidades como copiar, pegar y cortar.
+  \item Búsqueda de texto.
+ \end{itemize}
+ \item Capacidad para insertar texto.
+ \item Capacidad para manipular o presentar fechas.
+ \item Capacidad para definir o manipular configuraciones por zona.
+ \begin{itemize}
+  \item Diferentes unidades, monedas, etc.
+  \item Diferentes formas de desplegar números.
+ \end{itemize}
+\end{itemize}
+
+Por otro lado, en la localización los siguientes aspectos son importantes:
+
+\begin{itemize}
+ \item Traducir datos de texto traducible.
+ \item Proporcionar datos de texto localizados únicos.
+ \item Correctores ortográficos.
+ \item Distribuciones de teclado.
+ \item Métodos de entrada.
+ \item Reglas de clasificación.
+\end{itemize}
+
+\section{Conclusiones}
+Como se mostró en este trabajo, el conocer en que consiste i18n y l10n, así 
+como sus diferencias permite resolver diversos problemas de acuerdo a sus 
+necesidades.
+
+Finalmente, se puede concluir que l10n se aplica en problemas de traducción de 
+un lenguaje a otro, así que los traductores son los que más se involucran en 
+este caso; por otro lado, i18n es utilizado en problemas de infraestructura; 
+por lo que afecta varios lenguajes, en este caso los desarrolladores son los 
+principales involucrados.
+\end{document}
