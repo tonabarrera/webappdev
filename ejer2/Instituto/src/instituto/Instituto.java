@@ -26,7 +26,7 @@ public class Instituto {
         boolean continuar = true;
         int opcion = 0;
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        CarreraDao dao = new CarreraDao();
+        CarreraDAO dao = new CarreraDAO();
         Carrera carrera;
 
         while (continuar) {

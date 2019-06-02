@@ -72,7 +72,9 @@ public class Alumno implements Serializable {
 
     @Override
     public String toString() {
-        return "dto.Alumno{" + "noBoleta=" + noBoleta + ", nombre='" + nombre + '\'' + ", apPaterno" +
-                "='" + apPaterno + '\'' + ", apMaterno='" + apMaterno + '\'' + ", email='" + email + '\'' + ", carrera=" + carrera + '}';
+        return "dto.Alumno{" + "noBoleta=" + noBoleta + ", nombre='" + nombre 
+                + '\'' + ", apPaterno" + "='" + apPaterno + '\'' 
+                + ", apMaterno='" + apMaterno + '\'' + ", email='" 
+                + email + '\'' + ", carrera=" + carrera + '}';
     }
 }

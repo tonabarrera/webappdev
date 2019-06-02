@@ -15,7 +15,7 @@ import java.util.List;
  *
  * @author tonatihu
  */
-public class AlumnoDao extends GenericDAO<Alumno>{
+public class AlumnoDAO extends GenericDAO<Alumno>{
     private static final String SQL_INSERT = "insert into alumno(boleta, "
             + "nombre, ap_paterno, ap_materno, email, carrera_id) "
             + "values (?, ?, ?, ?, ?, ?)";
@@ -30,7 +30,7 @@ public class AlumnoDao extends GenericDAO<Alumno>{
 
     private final Conexion conexion;
 
-    public AlumnoDao() {
+    public AlumnoDAO() {
         conexion = new Conexion();
     }
 

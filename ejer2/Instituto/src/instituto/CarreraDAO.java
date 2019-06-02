@@ -15,7 +15,7 @@ import java.util.List;
  * @author tonatihu
  * Created on 1/30/19
  */
-public class CarreraDao extends GenericDAO<Carrera>{
+public class CarreraDAO extends GenericDAO<Carrera>{
     private static final String SQL_INSERT = "insert into carrera(nombre, "
             + "descripcion, duracion) values (?, ?, ?)";
     private static final String SQL_UPDATE = "update carrera set nombre=?, "
@@ -28,7 +28,7 @@ public class CarreraDao extends GenericDAO<Carrera>{
 
     private final Conexion conexion;
 
-    public CarreraDao() {
+    public CarreraDAO() {
         conexion = new Conexion();
     }
 
