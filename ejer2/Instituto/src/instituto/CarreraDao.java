@@ -12,34 +12,35 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
  * @author tonatihu
+ * Created on 1/30/19
  */
-public class AlumnoDAOImpl implements AlumnoDAO{
-    private static final String SQL_INSERT = "insert into alumno(boleta, nombre, ap_paterno, ap_materno, email, carrera_id) values (?, ?, ?, ?, ?, ?)";
-    private static final String SQL_UPDATE = "update alumno set nombre=?, ap_paterno=?, ap_materno=?, email=?, carrera_id=? where boleta=?";
-    private static final String SQL_SELECT = "select * from alumno where boleta=?";
-    private static final String SQL_SELECT_ALL = "select * from alumno";
-    private static final String SQL_DELETE = "delete from alumno where boleta=?";
+public class CarreraDao extends GenericDAO<Carrera>{
+    private static final String SQL_INSERT = "insert into carrera(nombre, "
+            + "descripcion, duracion) values (?, ?, ?)";
+    private static final String SQL_UPDATE = "update carrera set nombre=?, "
+            + "descripcion=?, duracion=? where carrera_id=?";
+    private static final String SQL_SELECT = "select * from carrera "
+            + "where carrera_id=?";
+    private static final String SQL_SELECT_ALL = "select * from carrera";
+    private static final String SQL_DELETE = "delete from carrera "
+            + "where carrera_id=?";
 
-    private Conexion conexion;
+    private final Conexion conexion;
 
-    public AlumnoDAOImpl() {
+    public CarreraDao() {
         conexion = new Conexion();
     }
 
     @Override
-    public void create(Alumno a) throws SQLException {
+    public void create(Carrera c) throws SQLException  {
         PreparedStatement ps = null;
         conexion.conectar();
         try {
             ps = conexion.createPreparedStatement(SQL_INSERT);
-            ps.setLong(1, a.getNoBoleta());
-            ps.setString(2, a.getNombre());
-            ps.setString(3, a.getApPaterno());
-            ps.setString(4, a.getApMaterno());
-            ps.setString(5, a.getEmail());
-            ps.setInt(6, a.getCarrera().getId());
+            ps.setString(1, c.getNombre());
+            ps.setString(2, c.getDescripcion());
+            ps.setInt(3, c.getDuracion());
             ps.executeUpdate();
         } finally {
             conexion.cerrar(ps);
@@ -48,15 +49,15 @@ public class AlumnoDAOImpl implements AlumnoDAO{
     }
 
     @Override
-    public Alumno read(Alumno a) throws SQLException {
+    public Carrera read(Carrera c) throws SQLException  {
         PreparedStatement ps = null;
         ResultSet rs = null;
         conexion.conectar();
         try {
             ps = conexion.createPreparedStatement(SQL_SELECT);
-            ps.setLong(1, a.getNoBoleta());
+            ps.setInt(1, c.getId());
             rs = ps.executeQuery();
-            List<Alumno> resultados = obtenerResultados(rs);
+            List<Carrera> resultados = obtenerResultados(rs);
             if (resultados.size() > 0) {
                 return resultados.get(0);
             } else {
@@ -69,33 +70,19 @@ public class AlumnoDAOImpl implements AlumnoDAO{
         }
     }
 
-    private List<Alumno> obtenerResultados(ResultSet rs) throws SQLException {
-        List<Alumno> resultados = new ArrayList<>();
-        while (rs.next()) {
-            Alumno a = new Alumno();
-            a.setNoBoleta(rs.getLong("boleta"));
-            a.setNombre(rs.getString("nombre"));
-            a.setApPaterno(rs.getString("ap_paterno"));
-            a.setApMaterno(rs.getString("ap_materno"));
-            a.setEmail(rs.getString("email"));
-            resultados.add(a);
-        }
-        return resultados;
-    }
-
     @Override
-    public List readAll() throws SQLException {
+    public List<Carrera> readAll() throws SQLException  {
         PreparedStatement ps = null;
         ResultSet rs = null;
         conexion.conectar();
         try {
             ps = conexion.createPreparedStatement(SQL_SELECT_ALL);
             rs = ps.executeQuery();
-            List<Alumno> resultados = obtenerResultados(rs);
+            List<Carrera> resultados = obtenerResultados(rs);
             if (resultados.size() > 0) {
                 return resultados;
             } else {
-                return null;
+                return new ArrayList<>();
             }
         } finally {
             conexion.cerrar(rs);
@@ -105,17 +92,15 @@ public class AlumnoDAOImpl implements AlumnoDAO{
     }
 
     @Override
-    public void update(Alumno a) throws SQLException {
+    public void update(Carrera c) throws SQLException  {
         PreparedStatement ps = null;
         conexion.conectar();
         try {
             ps = conexion.createPreparedStatement(SQL_UPDATE);
-            ps.setString(1, a.getNombre());
-            ps.setString(2, a.getApPaterno());
-            ps.setString(3, a.getApMaterno());
-            ps.setString(4, a.getEmail());
-            ps.setInt(5, a.getCarrera().getId());
-            ps.setLong(6, a.getNoBoleta());
+            ps.setString(1, c.getNombre());
+            ps.setString(2, c.getDescripcion());
+            ps.setInt(3, c.getDuracion());
+            ps.setInt(4, c.getId());
             ps.executeUpdate();
         } finally {
             conexion.cerrar(ps);
@@ -124,16 +109,29 @@ public class AlumnoDAOImpl implements AlumnoDAO{
     }
 
     @Override
-    public void delete(Alumno a) throws SQLException {
+    public void delete(Carrera c) throws SQLException  {
         PreparedStatement ps = null;
         conexion.conectar();
         try {
             ps = conexion.createPreparedStatement(SQL_DELETE);
-            ps.setLong(1, a.getNoBoleta());
+            ps.setInt(1, c.getId());
             ps.executeUpdate();
         } finally {
             conexion.cerrar(ps);
             conexion.cerrar();
         }
+    }
+
+    private List<Carrera> obtenerResultados(ResultSet rs) throws SQLException {
+        List<Carrera> resultados = new ArrayList<>();
+        while (rs.next()) {
+            Carrera c = new Carrera();
+            c.setId(rs.getInt("carrera_id"));
+            c.setNombre(rs.getString("nombre"));
+            c.setDescripcion(rs.getString("descripcion"));
+            c.setDuracion(rs.getInt("duracion"));
+            resultados.add(c);
+        }
+        return resultados;
     }
 }

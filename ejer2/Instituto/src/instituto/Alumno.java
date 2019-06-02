@@ -12,7 +12,7 @@ import java.io.Serializable;
  * @author tonatihu
  */
 public class Alumno implements Serializable {
-    private long noBoleta;
+    private String noBoleta;
     private String nombre;
     private String apPaterno;
     private String apMaterno;
@@ -22,11 +22,11 @@ public class Alumno implements Serializable {
     public Alumno() {
     }
 
-    public long getNoBoleta() {
+    public String getNoBoleta() {
         return noBoleta;
     }
 
-    public void setNoBoleta(long noBoleta) {
+    public void setNoBoleta(String noBoleta) {
         this.noBoleta = noBoleta;
     }
 

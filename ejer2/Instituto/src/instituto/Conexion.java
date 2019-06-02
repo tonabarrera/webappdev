@@ -21,7 +21,7 @@ public class Conexion {
     public void conectar() {
         String user = "root";
         String pwd = "respuesta42";
-        String url = "jdbc:mysql://localhost:3306/instituto";
+        String url = "jdbc:mysql://localhost:3306/escuelita";
         String mySqlDriver = "com.mysql.jdbc.Driver";
         try {
             Class.forName(mySqlDriver);
