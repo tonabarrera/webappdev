@@ -1,7 +1,5 @@
 package me.tonatihu.dao;
 
-import me.tonatihu.entity.UsuarioEntity;
-
 import java.io.Serializable;
 
 /**
