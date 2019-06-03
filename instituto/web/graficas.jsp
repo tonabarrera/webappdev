@@ -50,8 +50,8 @@
                                             class="center-block" style="max-width: 100%; max-height: 100%;" />
                                     </div>
                                     <div class="row">
-                                        <a class="btn btn-primary" href="graficas?accion=generar">
-                                            Mandar PDF a mi correo
+                                        <a class="btn btn-primary" href="graficas?action=generar">
+                                            Mandar imagen a mi correo
                                         </a>
                                     </div>
                                 </div>

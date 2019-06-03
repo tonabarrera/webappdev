@@ -103,6 +103,8 @@ public class LoginServlet extends HttpServlet {
                 Usuario u = dao.findByUsername(username);
                 session.setAttribute("USUARIO_SESSION", u);
                 response.sendRedirect("home");
+            } else {
+                request.getRequestDispatcher("login.jsp").forward(request, response);
             }
         } catch (SQLException ex) {
             Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);

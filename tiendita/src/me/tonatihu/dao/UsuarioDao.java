@@ -11,4 +11,5 @@ import java.io.Serializable;
 
 public interface UsuarioDao<T, Id extends Serializable> {
     T findByUsernameAndContra(String username, String contra);
+    T findByUsername(String username);
 }

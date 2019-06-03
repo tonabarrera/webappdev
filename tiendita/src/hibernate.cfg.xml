@@ -13,7 +13,6 @@
         <property name="format_sql">true</property>
         <property name="hibernate.current_session_context_class">thread</property>
         <!-- DB schema will be updated if needed -->
-        <property name="hbm2ddl.auto">update</property>
         <mapping class="me.tonatihu.entity.UsuarioEntity"/>
         <mapping class="me.tonatihu.entity.CategoriaEntity"/>
         <mapping class="me.tonatihu.entity.ProductoEntity"/>

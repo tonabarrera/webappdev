@@ -1,7 +1,11 @@
 package me.tonatihu.controller;
 
+import me.tonatihu.dao.UsuarioDao;
 import me.tonatihu.dao.impl.ProductoDaoImpl;
+import me.tonatihu.dao.impl.UsuarioDaoImpl;
 import me.tonatihu.dto.Dato;
+import me.tonatihu.dto.Usuario;
+import me.tonatihu.entity.UsuarioEntity;
 import me.tonatihu.util.EnvioEmail;
 import me.tonatihu.util.Paginas;
 import net.sf.jasperreports.engine.*;
@@ -16,6 +20,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.*;
 import java.util.HashMap;
 import java.util.List;
@@ -53,6 +58,10 @@ public class GraficasServlet extends HttpServlet {
         String template = getServletConfig().getServletContext().getRealPath("/static/templates");
         String grafica = getServletConfig().getServletContext()
                 .getRealPath("/static/templates/grafica.png");
+        UsuarioDao dao = new UsuarioDaoImpl();
+        HttpSession session = request.getSession();
+        Usuario u = (Usuario) session.getAttribute("USUARIO_SESSION");
+        UsuarioEntity usuarioEntity = (UsuarioEntity) dao.findByUsername(u.getUsername());
         try {
             JasperReport jasperReport = (JasperReport) JRLoader.loadObject(new File(template,
                     "tienditaChida.jasper"));
@@ -74,8 +83,8 @@ public class GraficasServlet extends HttpServlet {
                     "<p>Te mandamos un reporte.pdf solo por los memes</p><img src=\"cid:grafica\"/>";
             imagenesMap.put("grafica", grafica);
             archivosMap.put("Reporte.pdf", archivo.getAbsolutePath());
-            email.setAsunto("A tus ordenes chichona");
-            email.setDestinatario("carlostonatihu@gmail.com");
+            email.setAsunto("A tus ordenes...");
+            email.setDestinatario(usuarioEntity.getEmail());
             email.setMensaje(mensaje);
             email.enviar(imagenesMap, archivosMap);
             if (archivo.delete())

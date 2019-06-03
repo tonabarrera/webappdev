@@ -6,7 +6,6 @@
 
 package utils;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -38,7 +37,7 @@ public class EnvioEmail {
     private String mensaje;
     private Properties props;
     private static final String USERNAME = "webappdevtona@outlook.com";
-    private static final String PASSWORD = "";
+    private static final String PASSWORD = "jodanse90";
     private final Session session;
     
     public EnvioEmail() {

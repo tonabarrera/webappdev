@@ -42,12 +42,9 @@ public class RecuperarContraServlet extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         String email = request.getParameter("email");
         UsuarioDao dao = new UsuarioDaoImpl();
-        String archivo = getServletConfig().getServletContext().getRealPath("/static/img/grafica.png");
-        String file = getServletConfig().getServletContext().getRealPath("/static/archivo.txt");
         Map<String, String> imagenesMap = new HashMap<>();
         Map<String, String> archivosMap = new HashMap<>();
-        imagenesMap.put("grafica", archivo);
-        archivosMap.put("Reporte.txt", file);
+        
         if (email != null) {
             try {
                 EnvioEmail e = new EnvioEmail();
@@ -56,7 +53,7 @@ public class RecuperarContraServlet extends HttpServlet {
                 Usuario u = dao.findByEmail(email);
                 if (u != null) {
                     String mensaje = "<h1>Bienvenido a Instituto</h1><br><h2>Tu contraseña es:</h2> " 
-                            + u.getPassword() + "<img src=\"cid:grafica\"/> <p>Tambien te mandamos un reporte.txt solo por los memes</p>";
+                            + u.getPassword();
                     e.setMensaje(mensaje);
                     e.enviar(imagenesMap, archivosMap);
                     response.sendRedirect("login");

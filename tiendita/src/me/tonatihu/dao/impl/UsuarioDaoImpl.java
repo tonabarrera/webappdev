@@ -14,6 +14,7 @@ import java.util.List;
 
 public class UsuarioDaoImpl extends GenericDao<UsuarioEntity, String> implements UsuarioDao<UsuarioEntity, String> {
     private static final String FIND_BY_USERNAME_AND_CONTRA = "from UsuarioEntity where username=:u and contra=:p";
+    private static final String FIND_BY_USERNAME = "from UsuarioEntity where username=:u";
 
     @Override
     public UsuarioEntity findByUsernameAndContra(String username, String contra) {
@@ -21,6 +22,16 @@ public class UsuarioDaoImpl extends GenericDao<UsuarioEntity, String> implements
         Query query = getCurrentSession().createQuery(FIND_BY_USERNAME_AND_CONTRA);
         query.setParameter("u", username);
         query.setParameter("p", contra);
+        UsuarioEntity usuario = (UsuarioEntity) query.uniqueResult();
+        closeCurrentSession();
+        return usuario;
+    }
+
+    @Override
+    public UsuarioEntity findByUsername(String username) {
+        openCurrentSession();
+        Query query = getCurrentSession().createQuery(FIND_BY_USERNAME);
+        query.setParameter("u", username);
         UsuarioEntity usuario = (UsuarioEntity) query.uniqueResult();
         closeCurrentSession();
         return usuario;
